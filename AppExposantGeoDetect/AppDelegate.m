@@ -9,7 +9,8 @@
 #import "AppDelegate.h"
 
 #import "MasterViewController.h"
-#import <GSKeychain/GSKeychain.h>
+#import "Event.h"
+#import "Client.h"
 
 @implementation AppDelegate
 
@@ -19,6 +20,8 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    
+    
     // Override point for customization after application launch.
     UISplitViewController *splitViewController = (UISplitViewController *)self.window.rootViewController;
     UINavigationController *navigationController = [splitViewController.viewControllers lastObject];
@@ -28,7 +31,55 @@
     MasterViewController *controller = (MasterViewController *)masterNavigationController.topViewController;
     controller.managedObjectContext = self.managedObjectContext;
     
-    [[GSKeychain systemKeychain] setSecret:@"blbla" forKey:@"login"];
+    
+    
+    /////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////CORE DATA////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////
+    
+    
+    ////////////////////////////////////////////////////////////////////////INSERT IN CONTEXT
+    Event  * event1  = nil;
+    Client * client1 = nil;
+    
+    event1 = [NSEntityDescription insertNewObjectForEntityForName:@"Event"
+                                           inManagedObjectContext:self.managedObjectContext];
+
+    client1 = [NSEntityDescription insertNewObjectForEntityForName:@"Client"
+                                           inManagedObjectContext:self.managedObjectContext];
+    
+    client1.firstName = @"Max";
+    client1.lastName  = @"Bernard";
+    
+    event1.inOrOut = @0;
+    event1.timestamp = [NSDate date];
+    event1.client = client1;
+    
+
+    ////////////////////////////////////////////////////////////////////////FETCH CLIENTS FROM CONTEXT
+    NSFetchRequest *clientFetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *coreDataClient = [NSEntityDescription entityForName:@"Client" inManagedObjectContext:self.managedObjectContext];
+    [clientFetchRequest setEntity:coreDataClient];
+    NSError* error = nil;
+    NSArray *fetchedClientObjects = [self.managedObjectContext executeFetchRequest:clientFetchRequest error:&error];
+
+
+    ////////////////////////////////////////////////////////////////////////FETCH EVENTS FROM CONTEXT
+    NSFetchRequest *eventFetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *coreDataEvent = [NSEntityDescription entityForName:@"Event" inManagedObjectContext:self.managedObjectContext];
+    [eventFetchRequest setEntity:coreDataEvent];
+    // Specify how the fetched objects should be sorted
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"timestamp" ascending:YES];
+    [eventFetchRequest setSortDescriptors:[NSArray arrayWithObjects:sortDescriptor, nil]];
+
+    NSError *error2 = nil;
+    NSArray *fetchedEventObjects = [self.managedObjectContext executeFetchRequest:eventFetchRequest error:&error2];
+    
+    if (fetchedEventObjects == nil) {
+        NSLog(@"CoreData Error");
+    }
+    
+    
     
     return YES;
 }

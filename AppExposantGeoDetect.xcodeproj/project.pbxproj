@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		380D47BA19CB1B2000E49394 /* Event.m in Sources */ = {isa = PBXBuildFile; fileRef = 380D47B919CB1B2000E49394 /* Event.m */; };
+		380D47BD19CB1B2000E49394 /* Client.m in Sources */ = {isa = PBXBuildFile; fileRef = 380D47BC19CB1B2000E49394 /* Client.m */; };
 		383D4B7819C9EEBE0046DD2F /* LoginVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 383D4B7719C9EEBE0046DD2F /* LoginVC.m */; };
 		383D4B7B19C9EF1B0046DD2F /* LoggedVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 383D4B7A19C9EF1B0046DD2F /* LoggedVC.m */; };
 		38AADCBE19C9D487000ACC6E /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 38AADCBD19C9D487000ACC6E /* libPods.a */; };
@@ -63,6 +65,10 @@
 
 /* Begin PBXFileReference section */
 		1770ED71EDCE489DB2D8CF29 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
+		380D47B819CB1B2000E49394 /* Event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Event.h; sourceTree = "<group>"; };
+		380D47B919CB1B2000E49394 /* Event.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Event.m; sourceTree = "<group>"; };
+		380D47BB19CB1B2000E49394 /* Client.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Client.h; sourceTree = "<group>"; };
+		380D47BC19CB1B2000E49394 /* Client.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Client.m; sourceTree = "<group>"; };
 		383D4B7619C9EEBE0046DD2F /* LoginVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginVC.h; sourceTree = "<group>"; };
 		383D4B7719C9EEBE0046DD2F /* LoginVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginVC.m; sourceTree = "<group>"; };
 		383D4B7919C9EF1B0046DD2F /* LoggedVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoggedVC.h; sourceTree = "<group>"; };
@@ -205,6 +211,10 @@
 				38BEA19119C9BF5500A560C3 /* DetailViewController.m */,
 				38BEA19319C9BF5500A560C3 /* Images.xcassets */,
 				38BEA18A19C9BF5500A560C3 /* AppExposantGeoDetect.xcdatamodeld */,
+				380D47B819CB1B2000E49394 /* Event.h */,
+				380D47B919CB1B2000E49394 /* Event.m */,
+				380D47BB19CB1B2000E49394 /* Client.h */,
+				380D47BC19CB1B2000E49394 /* Client.m */,
 				38BEA17C19C9BF5500A560C3 /* Supporting Files */,
 			);
 			path = AppExposantGeoDetect;
@@ -485,6 +495,8 @@
 				38BEA18619C9BF5500A560C3 /* AppDelegate.m in Sources */,
 				38BEA18219C9BF5500A560C3 /* main.m in Sources */,
 				38BEA18C19C9BF5500A560C3 /* AppExposantGeoDetect.xcdatamodeld in Sources */,
+				380D47BA19CB1B2000E49394 /* Event.m in Sources */,
+				380D47BD19CB1B2000E49394 /* Client.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
