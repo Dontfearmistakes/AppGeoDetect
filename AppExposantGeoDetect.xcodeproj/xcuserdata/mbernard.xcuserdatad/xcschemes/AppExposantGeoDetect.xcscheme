@@ -38,6 +38,16 @@
                ReferencedContainer = "container:AppExposantGeoDetect.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "38BEA1D019C9BF8600A560C3"
+               BuildableName = "AppClientGeoDetectTests.xctest"
+               BlueprintName = "AppClientGeoDetectTests"
+               ReferencedContainer = "container:AppExposantGeoDetect.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference

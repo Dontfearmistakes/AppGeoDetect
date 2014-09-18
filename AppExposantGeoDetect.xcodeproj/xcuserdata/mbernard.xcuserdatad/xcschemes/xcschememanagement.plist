@@ -4,6 +4,11 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>AppClientGeoDetect.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>1</integer>
+		</dict>
 		<key>AppExposantGeoDetect.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
@@ -18,6 +23,16 @@
 			<true/>
 		</dict>
 		<key>38BEA19819C9BF5500A560C3</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>38BEA1B419C9BF8600A560C3</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>38BEA1D019C9BF8600A560C3</key>
 		<dict>
 			<key>primary</key>
 			<true/>

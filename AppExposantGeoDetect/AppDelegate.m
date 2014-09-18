@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 
 #import "MasterViewController.h"
+#import <GSKeychain/GSKeychain.h>
 
 @implementation AppDelegate
 
@@ -26,6 +27,9 @@
     UINavigationController *masterNavigationController = splitViewController.viewControllers[0];
     MasterViewController *controller = (MasterViewController *)masterNavigationController.topViewController;
     controller.managedObjectContext = self.managedObjectContext;
+    
+    [[GSKeychain systemKeychain] setSecret:@"blbla" forKey:@"login"];
+    
     return YES;
 }
 							
