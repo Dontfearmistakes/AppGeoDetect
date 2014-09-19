@@ -19,4 +19,8 @@
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *clearAllBarButton;
+- (IBAction)clearAllBarButtonClick:(id)sender;
+
+
 @end

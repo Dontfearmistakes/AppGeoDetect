@@ -22,31 +22,24 @@
 {
     
     
-    // Override point for customization after application launch.
-    UISplitViewController *splitViewController = (UISplitViewController *)self.window.rootViewController;
-    UINavigationController *navigationController = [splitViewController.viewControllers lastObject];
-    splitViewController.delegate = (id)navigationController.topViewController;
+[NSTimer scheduledTimerWithTimeInterval:2.0f
+                                 target:self
+                               selector:@selector(insertSomethingInCoreData)
+                               userInfo:nil
+                                repeats:YES];
+    return YES;
+}
 
-    UINavigationController *masterNavigationController = splitViewController.viewControllers[0];
-    MasterViewController *controller = (MasterViewController *)masterNavigationController.topViewController;
-    controller.managedObjectContext = self.managedObjectContext;
-    
-    
-    
-    /////////////////////////////////////////////////////////////////////////////////////
-    ////////////////////////CORE DATA////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////////////////////////////////
-    
-    
-    ////////////////////////////////////////////////////////////////////////INSERT IN CONTEXT
+- (void) insertSomethingInCoreData
+{
     Event  * event1  = nil;
     Client * client1 = nil;
     
     event1 = [NSEntityDescription insertNewObjectForEntityForName:@"Event"
                                            inManagedObjectContext:self.managedObjectContext];
-
+    
     client1 = [NSEntityDescription insertNewObjectForEntityForName:@"Client"
-                                           inManagedObjectContext:self.managedObjectContext];
+                                            inManagedObjectContext:self.managedObjectContext];
     
     client1.firstName = @"Max";
     client1.lastName  = @"Bernard";
@@ -55,35 +48,10 @@
     event1.timestamp = [NSDate date];
     event1.client = client1;
     
-
-    ////////////////////////////////////////////////////////////////////////FETCH CLIENTS FROM CONTEXT
-    NSFetchRequest *clientFetchRequest = [[NSFetchRequest alloc] init];
-    NSEntityDescription *coreDataClient = [NSEntityDescription entityForName:@"Client" inManagedObjectContext:self.managedObjectContext];
-    [clientFetchRequest setEntity:coreDataClient];
-    NSError* error = nil;
-    NSArray *fetchedClientObjects = [self.managedObjectContext executeFetchRequest:clientFetchRequest error:&error];
-
-
-    ////////////////////////////////////////////////////////////////////////FETCH EVENTS FROM CONTEXT
-    NSFetchRequest *eventFetchRequest = [[NSFetchRequest alloc] init];
-    NSEntityDescription *coreDataEvent = [NSEntityDescription entityForName:@"Event" inManagedObjectContext:self.managedObjectContext];
-    [eventFetchRequest setEntity:coreDataEvent];
-    // Specify how the fetched objects should be sorted
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"timestamp" ascending:YES];
-    [eventFetchRequest setSortDescriptors:[NSArray arrayWithObjects:sortDescriptor, nil]];
-
-    NSError *error2 = nil;
-    NSArray *fetchedEventObjects = [self.managedObjectContext executeFetchRequest:eventFetchRequest error:&error2];
-    
-    if (fetchedEventObjects == nil) {
-        NSLog(@"CoreData Error");
-    }
-    
-    
-    
-    return YES;
+    NSError* error0 = nil;
+    [self.managedObjectContext save:&error0];
 }
-							
+
 - (void)applicationWillResignActive:(UIApplication *)application
 {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

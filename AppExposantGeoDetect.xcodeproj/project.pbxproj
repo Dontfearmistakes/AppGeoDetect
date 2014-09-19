@@ -22,7 +22,6 @@
 		38BEA18919C9BF5500A560C3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 38BEA18719C9BF5500A560C3 /* Main.storyboard */; };
 		38BEA18C19C9BF5500A560C3 /* AppExposantGeoDetect.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 38BEA18A19C9BF5500A560C3 /* AppExposantGeoDetect.xcdatamodeld */; };
 		38BEA18F19C9BF5500A560C3 /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38BEA18E19C9BF5500A560C3 /* MasterViewController.m */; };
-		38BEA19219C9BF5500A560C3 /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38BEA19119C9BF5500A560C3 /* DetailViewController.m */; };
 		38BEA19419C9BF5500A560C3 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 38BEA19319C9BF5500A560C3 /* Images.xcassets */; };
 		38BEA19B19C9BF5500A560C3 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38BEA19A19C9BF5500A560C3 /* XCTest.framework */; };
 		38BEA19C19C9BF5500A560C3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38BEA17319C9BF5500A560C3 /* Foundation.framework */; };
@@ -89,8 +88,6 @@
 		38BEA18B19C9BF5500A560C3 /* AppExposantGeoDetect.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = AppExposantGeoDetect.xcdatamodel; sourceTree = "<group>"; };
 		38BEA18D19C9BF5500A560C3 /* MasterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MasterViewController.h; sourceTree = "<group>"; };
 		38BEA18E19C9BF5500A560C3 /* MasterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MasterViewController.m; sourceTree = "<group>"; };
-		38BEA19019C9BF5500A560C3 /* DetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
-		38BEA19119C9BF5500A560C3 /* DetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
 		38BEA19319C9BF5500A560C3 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		38BEA19919C9BF5500A560C3 /* AppExposantGeoDetectTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AppExposantGeoDetectTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		38BEA19A19C9BF5500A560C3 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
@@ -207,8 +204,6 @@
 				38BEA18719C9BF5500A560C3 /* Main.storyboard */,
 				38BEA18D19C9BF5500A560C3 /* MasterViewController.h */,
 				38BEA18E19C9BF5500A560C3 /* MasterViewController.m */,
-				38BEA19019C9BF5500A560C3 /* DetailViewController.h */,
-				38BEA19119C9BF5500A560C3 /* DetailViewController.m */,
 				38BEA19319C9BF5500A560C3 /* Images.xcassets */,
 				38BEA18A19C9BF5500A560C3 /* AppExposantGeoDetect.xcdatamodeld */,
 				380D47B819CB1B2000E49394 /* Event.h */,
@@ -490,7 +485,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				38BEA19219C9BF5500A560C3 /* DetailViewController.m in Sources */,
 				38BEA18F19C9BF5500A560C3 /* MasterViewController.m in Sources */,
 				38BEA18619C9BF5500A560C3 /* AppDelegate.m in Sources */,
 				38BEA18219C9BF5500A560C3 /* main.m in Sources */,

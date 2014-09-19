@@ -8,7 +8,10 @@
 
 #import "MasterViewController.h"
 
-#import "DetailViewController.h"
+#import "AppDelegate.h"
+#import "Client.h"
+#import "Event.h"
+
 
 @interface MasterViewController ()
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
@@ -26,13 +29,15 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
-    self.navigationItem.leftBarButtonItem = self.editButtonItem;
 
-    UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(insertNewObject:)];
-    self.navigationItem.rightBarButtonItem = addButton;
-    self.detailViewController = (DetailViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
+    
+    
+    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication]delegate];
+    self.managedObjectContext = [appDelegate managedObjectContext];
 }
+
+
+
 
 - (void)didReceiveMemoryWarning
 {
@@ -60,7 +65,16 @@
     }
 }
 
+
+
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Table View
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -80,42 +94,34 @@
     return cell;
 }
 
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+- (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
+    Event *event = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    
+    NSString *inOrOutString;
+    
+    if ([(NSNumber*)event.inOrOut  isEqual: @1])
+        inOrOutString = @"entered";
+    else
+        inOrOutString = @"left";
+    
+    NSString* datePart = [NSDateFormatter localizedStringFromDate: event.timestamp
+                                                        dateStyle: NSDateFormatterShortStyle
+                                                        timeStyle: NSDateFormatterNoStyle];
+    NSString* timePart = [NSDateFormatter localizedStringFromDate: event.timestamp
+                                                        dateStyle: NSDateFormatterNoStyle
+                                                        timeStyle: NSDateFormatterMediumStyle];
+    
+    cell.textLabel.text = [NSString stringWithFormat:@"%@ %@ just %@ the area at %@", event.client.firstName, event.client.lastName, inOrOutString, timePart];
+    
 }
 
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
-        [context deleteObject:[self.fetchedResultsController objectAtIndexPath:indexPath]];
-        
-        NSError *error = nil;
-        if (![context save:&error]) {
-             // Replace this implementation with code to handle the error appropriately.
-             // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development. 
-            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-            abort();
-        }
-    }   
-}
 
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // The table view should not be re-orderable.
-    return NO;
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    NSManagedObject *object = [[self fetchedResultsController] objectAtIndexPath:indexPath];
-    self.detailViewController.detailItem = object;
-}
-
-#pragma mark - Fetched results controller
-
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+                                                            #pragma mark - Fetched results controller
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////
 - (NSFetchedResultsController *)fetchedResultsController
 {
     if (_fetchedResultsController != nil) {
@@ -131,14 +137,14 @@
     [fetchRequest setFetchBatchSize:20];
     
     // Edit the sort key as appropriate.
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"timeStamp" ascending:NO];
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"timestamp" ascending:NO];
     NSArray *sortDescriptors = @[sortDescriptor];
     
     [fetchRequest setSortDescriptors:sortDescriptors];
     
     // Edit the section name key path and cache name if appropriate.
     // nil for section name key path means "no sections".
-    NSFetchedResultsController *aFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:@"Master"];
+    NSFetchedResultsController *aFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:nil];
     aFetchedResultsController.delegate = self;
     self.fetchedResultsController = aFetchedResultsController;
     
@@ -151,7 +157,39 @@
 	}
     
     return _fetchedResultsController;
-}    
+}
+
+
+
+
+- (IBAction)clearAllBarButtonClick:(id)sender
+{
+    //FETCH ALL EVENTS IN CORE DATA
+    NSFetchRequest *request     = [NSFetchRequest fetchRequestWithEntityName:@"Event"];
+    NSError *error = nil;
+    NSArray *objectsToBeDeleted = [self.managedObjectContext executeFetchRequest:request
+                                                                           error:&error];
+    //SI IL Y EN A, ON LES SUPPRIME
+    if (! [objectsToBeDeleted count] == 0)
+    {
+        for (NSManagedObject* objectToBeDeleted in objectsToBeDeleted)
+            [self.managedObjectContext deleteObject:objectToBeDeleted];
+    }
+    
+    //Save context
+    NSError *error2 = nil;
+    if (![self.managedObjectContext save:&error])
+    {
+        NSLog(@"Can't Save! %@ \r %@", error2, [error2 localizedDescription]);
+    }
+    
+}
+
+
+
+
+
+
 
 - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller
 {
@@ -204,7 +242,7 @@
 }
 
 /*
-// Implementing the above methods to update the table view in response to individual changes may have performance implications if a large number of changes are made simultaneously. If this proves to be an issue, you can instead just implement controllerDidChangeContent: which notifies the delegate that all section and object changes have been processed. 
+// Implementing the above methods to update the table view in response to individual changes may have performance implications if a large number of changes are made simultaneously. If this proves to be an issue, you can instead just implement controllerDidChangeContent: which notifies the delegate that all section and object changes have been processed.
  
  - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
 {
@@ -213,10 +251,6 @@
 }
  */
 
-- (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
-{
-    NSManagedObject *object = [self.fetchedResultsController objectAtIndexPath:indexPath];
-    cell.textLabel.text = [[object valueForKey:@"timeStamp"] description];
-}
+
 
 @end
