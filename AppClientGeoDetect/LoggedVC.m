@@ -19,7 +19,37 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
+    //Ecoute les notif déclenchées lorsqu'on trouve des iBeacons
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(iphoneDidEnterRegionUIUpdate:)
+                                                 name:@"DidEnterRegion"
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(iphoneDidExitRegionUIUpdate:)
+                                                 name:@"DidExitRegion"
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(iphoneDidDetermineRegionUIUpdate:)
+                                                 name:@"DidDetermineRegionState"
+                                               object:nil];
+}
+
+-(void)iphoneDidEnterRegionUIUpdate:(NSNotification*)notif
+{
+    //Update UI
+    self.enterRegionLabel.text = [NSString stringWithFormat:@"didEnter : %@", notif.userInfo[@"stand"]]  ;
+}
+-(void)iphoneDidExitRegionUIUpdate:(NSNotification*)notif
+{
+    //Update UI
+    self.enterRegionLabel.text = [NSString stringWithFormat:@"didExit : %@", notif.userInfo[@"stand"]]  ;
+}
+-(void)iphoneDidDetermineRegionUIUpdate:(NSNotification*)notif
+{
+
+    //Update UI
+    self.determineRegionStateLabel.text = [NSString stringWithFormat: @"didDetermine : state : %d - uuid : %@", (int)notif.userInfo[@"state"], notif.userInfo[@"prox UUID"]];
 }
 
 

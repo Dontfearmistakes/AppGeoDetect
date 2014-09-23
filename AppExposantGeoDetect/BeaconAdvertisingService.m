@@ -15,6 +15,10 @@ NSString * const kBeaconIdentifier = @"com.razeware.waitlist";
 @interface BeaconAdvertisingService () <CBPeripheralManagerDelegate>
 
 @property (nonatomic, readwrite, getter = isAdvertising) BOOL advertising;
+@property (assign) BOOL needsStartAdvertising;
+@property (strong) NSUUID *currentUUID;
+@property (assign) CLBeaconMajorValue currentMajor;
+@property (assign) CLBeaconMajorValue currentMinor;
 
 @end
 
@@ -37,8 +41,11 @@ NSString * const kBeaconIdentifier = @"com.razeware.waitlist";
     if (!self) {
         return nil;
     }
-    
-    _peripheralManager = [[CBPeripheralManager alloc] initWithDelegate:self queue:dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)];
+    else
+    {
+        _peripheralManager = [[CBPeripheralManager alloc] initWithDelegate:self queue:dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)];
+        self.needsStartAdvertising = NO;
+    }
     
     return self;
 }
@@ -48,9 +55,16 @@ NSString * const kBeaconIdentifier = @"com.razeware.waitlist";
 - (void)startAdvertisingUUID:(NSUUID *)uuid major:(CLBeaconMajorValue)major minor:(CLBeaconMinorValue)minor
 {
     NSError *bluetoothStateError = nil;
+    self.currentUUID =uuid;
+    self.currentMajor = major;
+    self.currentMinor = minor;
     
+    //Si le bluetooth n'est pas encore allumé
     if (![self bluetoothStateValid:&bluetoothStateError]) {
-        [[[UIAlertView alloc] initWithTitle:@"Bluetooth Issue" message:bluetoothStateError.userInfo[@"message"] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+        //[[[UIAlertView alloc] initWithTitle:@"Bluetooth Issue" message:bluetoothStateError.userInfo[@"message"] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+        
+        //alors on a toujours besoin d'appeler startAdvertising et c'est pas la peine de le faire tout de suite (->return)
+        self.needsStartAdvertising = YES;
         return;
     }
     
@@ -77,15 +91,20 @@ NSString * const kBeaconIdentifier = @"com.razeware.waitlist";
     self.advertising = NO;
 }
 
-- (void)peripheralManagerDidUpdateState:(CBPeripheralManager *)peripheral {
+//Le Bluetooth a changé d'Etat
+- (void)peripheralManagerDidUpdateState:(CBPeripheralManager *)peripheral
+{
     NSError *bluetoothStateError = nil;
-    if (![self bluetoothStateValid:&bluetoothStateError]) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            UIAlertView *bluetoothIssueAlert = [[UIAlertView alloc] initWithTitle:@"Bluetooth Issue" message:bluetoothStateError.userInfo[@"message"] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-            [bluetoothIssueAlert show];
-        });
+    
+    //Si le peripheral manager (le bluetooth) est bien activé et qu'on est pas déjà rentré dans cette boucle
+    if ([self bluetoothStateValid:&bluetoothStateError] && self.needsStartAdvertising)
+    {
+        //Alors on advertise et on a plus besoin de le faire
+        [self startAdvertisingUUID:self.currentUUID major:self.currentMajor minor:self.currentMinor];
+        self.needsStartAdvertising  = NO;
     }
 }
+
 
 - (void)peripheralManagerDidStartAdvertising:(CBPeripheralManager *)peripheral error:(NSError *)error {
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -98,6 +117,8 @@ NSString * const kBeaconIdentifier = @"com.razeware.waitlist";
         }
     });
 }
+
+
 
 - (BOOL)bluetoothStateValid:(NSError **)error {
     BOOL bluetoothStateValid = YES;

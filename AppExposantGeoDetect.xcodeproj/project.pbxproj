@@ -12,6 +12,7 @@
 		383D4B7819C9EEBE0046DD2F /* LoginVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 383D4B7719C9EEBE0046DD2F /* LoginVC.m */; };
 		383D4B7B19C9EF1B0046DD2F /* LoggedVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 383D4B7A19C9EF1B0046DD2F /* LoggedVC.m */; };
 		3884B22219CC684600E8CBE2 /* BeaconAdvertisingService.m in Sources */ = {isa = PBXBuildFile; fileRef = 3884B22119CC684600E8CBE2 /* BeaconAdvertisingService.m */; };
+		38A5CB8819D02A5700427E78 /* BeaconMonitoringService.m in Sources */ = {isa = PBXBuildFile; fileRef = 38A5CB8719D02A5700427E78 /* BeaconMonitoringService.m */; };
 		38AADCBE19C9D487000ACC6E /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 38AADCBD19C9D487000ACC6E /* libPods.a */; };
 		38BEA17419C9BF5500A560C3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38BEA17319C9BF5500A560C3 /* Foundation.framework */; };
 		38BEA17619C9BF5500A560C3 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38BEA17519C9BF5500A560C3 /* CoreGraphics.framework */; };
@@ -75,6 +76,8 @@
 		383D4B7A19C9EF1B0046DD2F /* LoggedVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoggedVC.m; sourceTree = "<group>"; };
 		3884B22019CC684600E8CBE2 /* BeaconAdvertisingService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BeaconAdvertisingService.h; sourceTree = "<group>"; };
 		3884B22119CC684600E8CBE2 /* BeaconAdvertisingService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BeaconAdvertisingService.m; sourceTree = "<group>"; };
+		38A5CB8619D02A5700427E78 /* BeaconMonitoringService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BeaconMonitoringService.h; sourceTree = "<group>"; };
+		38A5CB8719D02A5700427E78 /* BeaconMonitoringService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BeaconMonitoringService.m; sourceTree = "<group>"; };
 		38AADCBD19C9D487000ACC6E /* libPods.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPods.a; path = "Pods/build/Debug-iphoneos/libPods.a"; sourceTree = "<group>"; };
 		38BEA17019C9BF5500A560C3 /* AppExposantGeoDetect.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AppExposantGeoDetect.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		38BEA17319C9BF5500A560C3 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -260,6 +263,8 @@
 		38BEA1B919C9BF8600A560C3 /* AppClientGeoDetect */ = {
 			isa = PBXGroup;
 			children = (
+				38A5CB8619D02A5700427E78 /* BeaconMonitoringService.h */,
+				38A5CB8719D02A5700427E78 /* BeaconMonitoringService.m */,
 				38BEA1C219C9BF8600A560C3 /* AppDelegate.h */,
 				38BEA1C319C9BF8600A560C3 /* AppDelegate.m */,
 				38BEA1C519C9BF8600A560C3 /* Main.storyboard */,
@@ -522,6 +527,7 @@
 			files = (
 				38BEA1C419C9BF8600A560C3 /* AppDelegate.m in Sources */,
 				383D4B7B19C9EF1B0046DD2F /* LoggedVC.m in Sources */,
+				38A5CB8819D02A5700427E78 /* BeaconMonitoringService.m in Sources */,
 				383D4B7819C9EEBE0046DD2F /* LoginVC.m in Sources */,
 				38BEA1C019C9BF8600A560C3 /* main.m in Sources */,
 			);
