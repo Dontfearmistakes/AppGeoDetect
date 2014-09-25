@@ -8,6 +8,7 @@
 
 #import "LoggedVC.h"
 #import <GSKeychain/GSKeychain.h>
+#import "AppDelegate.h"
 
 @interface LoggedVC ()
 
@@ -47,9 +48,8 @@
 }
 -(void)iphoneDidDetermineRegionUIUpdate:(NSNotification*)notif
 {
-
     //Update UI
-    self.determineRegionStateLabel.text = [NSString stringWithFormat: @"didDetermine : state : %d - uuid : %@", (int)notif.userInfo[@"state"], notif.userInfo[@"prox UUID"]];
+    self.determineRegionStateLabel.text = [NSString stringWithFormat: @"didDetermine : state : %@ - uuid : %@", (NSNumber *)notif.userInfo[@"state"], notif.userInfo[@"prox UUID"]];
 }
 
 
@@ -66,7 +66,6 @@
         UIViewController *loginVC = [storyboard instantiateViewControllerWithIdentifier:@"LoginVC"];
         loginVC.modalPresentationStyle = UIModalPresentationFullScreen;
         
-
         [self.navigationController presentViewController:loginVC animated:NO completion:nil];
         
     }
@@ -84,5 +83,14 @@
 {
     [[GSKeychain systemKeychain] removeAllSecrets];
 }
+
+//Call appDelegate method that starts browsing for peers
+- (IBAction)goBrowse:(id)sender {
+    
+    AppDelegate *appD = [[UIApplication sharedApplication] delegate];
+    [appD setUpBrowser];
+    
+}
+
 
 @end

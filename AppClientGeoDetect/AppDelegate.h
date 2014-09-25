@@ -7,9 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <MultipeerConnectivity/MultipeerConnectivity.h>
+
+
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
+@property (strong, nonatomic) MCSession *session;
+@property (strong, nonatomic) MCPeerID *peerId;
+-(void)setUpBrowser;
+extern NSString *const PeerConnectionAcceptedNotification;
 
 @end

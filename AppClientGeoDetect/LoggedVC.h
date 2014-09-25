@@ -16,4 +16,8 @@
 
 - (IBAction)clickOnDisconnectButton:(id)sender;
 
+
+- (IBAction)goBrowse:(id)sender;
+
+
 @end

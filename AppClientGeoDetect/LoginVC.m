@@ -9,8 +9,10 @@
 #import "LoginVC.h"
 #import "LoggedVC.h"
 #import <GSKeychain/GSKeychain.h>
+#import <MultipeerConnectivity/MultipeerConnectivity.h>
+#import "AppDelegate.h"
 
-@interface LoginVC ()
+@interface LoginVC () <MCBrowserViewControllerDelegate>
 
 @end
 
@@ -81,7 +83,21 @@
     [[GSKeychain systemKeychain] setSecret:self.firstNameTxtfield.text forKey:@"firstName"];
     [[GSKeychain systemKeychain] setSecret:self.lastNameTxtfield.text  forKey:@"lastName"];
     
-    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
-    
 }
+
+
+#pragma mark MCBrowserViewControllerDelegate delegate methods
+- (void)browserViewControllerDidFinish:(MCBrowserViewController *)browserViewController
+{
+    [browserViewController dismissViewControllerAnimated:YES completion:nil];
+//     ^{
+//        [self sendCard];
+//    }];
+}
+
+- (void)browserViewControllerWasCancelled:(MCBrowserViewController *)browserViewController
+{
+    [browserViewController dismissViewControllerAnimated:YES completion:nil];
+}
+
 @end

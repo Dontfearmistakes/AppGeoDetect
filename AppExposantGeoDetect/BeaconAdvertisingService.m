@@ -101,7 +101,7 @@ NSString * const kBeaconIdentifier = @"com.razeware.waitlist";
     {
         //Alors on advertise et on a plus besoin de le faire
         [self startAdvertisingUUID:self.currentUUID major:self.currentMajor minor:self.currentMinor];
-        self.needsStartAdvertising  = NO;
+         self.needsStartAdvertising  = NO;
     }
 }
 

@@ -14,6 +14,7 @@
 		3884B22219CC684600E8CBE2 /* BeaconAdvertisingService.m in Sources */ = {isa = PBXBuildFile; fileRef = 3884B22119CC684600E8CBE2 /* BeaconAdvertisingService.m */; };
 		38A5CB8819D02A5700427E78 /* BeaconMonitoringService.m in Sources */ = {isa = PBXBuildFile; fileRef = 38A5CB8719D02A5700427E78 /* BeaconMonitoringService.m */; };
 		38AADCBE19C9D487000ACC6E /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 38AADCBD19C9D487000ACC6E /* libPods.a */; };
+		38AEAC9A19D2C8AF002E8E59 /* peerID.txt in Resources */ = {isa = PBXBuildFile; fileRef = 38AEAC9919D2C8AF002E8E59 /* peerID.txt */; };
 		38BEA17419C9BF5500A560C3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38BEA17319C9BF5500A560C3 /* Foundation.framework */; };
 		38BEA17619C9BF5500A560C3 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38BEA17519C9BF5500A560C3 /* CoreGraphics.framework */; };
 		38BEA17819C9BF5500A560C3 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38BEA17719C9BF5500A560C3 /* UIKit.framework */; };
@@ -79,6 +80,7 @@
 		38A5CB8619D02A5700427E78 /* BeaconMonitoringService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BeaconMonitoringService.h; sourceTree = "<group>"; };
 		38A5CB8719D02A5700427E78 /* BeaconMonitoringService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BeaconMonitoringService.m; sourceTree = "<group>"; };
 		38AADCBD19C9D487000ACC6E /* libPods.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPods.a; path = "Pods/build/Debug-iphoneos/libPods.a"; sourceTree = "<group>"; };
+		38AEAC9919D2C8AF002E8E59 /* peerID.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = peerID.txt; sourceTree = "<group>"; };
 		38BEA17019C9BF5500A560C3 /* AppExposantGeoDetect.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AppExposantGeoDetect.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		38BEA17319C9BF5500A560C3 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		38BEA17519C9BF5500A560C3 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -263,6 +265,7 @@
 		38BEA1B919C9BF8600A560C3 /* AppClientGeoDetect */ = {
 			isa = PBXGroup;
 			children = (
+				38AEAC9919D2C8AF002E8E59 /* peerID.txt */,
 				38A5CB8619D02A5700427E78 /* BeaconMonitoringService.h */,
 				38A5CB8719D02A5700427E78 /* BeaconMonitoringService.m */,
 				38BEA1C219C9BF8600A560C3 /* AppDelegate.h */,
@@ -393,6 +396,11 @@
 				TargetAttributes = {
 					38BEA16F19C9BF5500A560C3 = {
 						DevelopmentTeam = 64Z6476XJF;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 0;
+							};
+						};
 					};
 					38BEA19819C9BF5500A560C3 = {
 						TestTargetID = 38BEA16F19C9BF5500A560C3;
@@ -452,6 +460,7 @@
 				38BEA1CC19C9BF8600A560C3 /* Images.xcassets in Resources */,
 				38BEA1BE19C9BF8600A560C3 /* InfoPlist.strings in Resources */,
 				38BEA1C719C9BF8600A560C3 /* Main.storyboard in Resources */,
+				38AEAC9A19D2C8AF002E8E59 /* peerID.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

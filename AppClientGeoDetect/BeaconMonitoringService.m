@@ -55,10 +55,12 @@ NSString * const kBeaconIdentifier = @"com.razeware.waitlist";
     {
         [_locationManager requestAlwaysAuthorization];
     }
+
     [_locationManager startMonitoringForRegion:region];
 }
 
 - (void)stopMonitoringAllRegions {
+    
     for (CLRegion *region in _locationManager.monitoredRegions) {
         [_locationManager stopMonitoringForRegion:region];
     }
@@ -164,15 +166,24 @@ NSString * const kBeaconIdentifier = @"com.razeware.waitlist";
 -(void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status
 {
 
-    //NSUUID *plasticOmiumUUID = [[NSUUID alloc] initWithUUIDString:@"EC6F3659-A8B9-4434-904C-A76F788DAC43"];
-    NSUUID *plasticOmiumUUID = [[NSUUID alloc] initWithUUIDString:@"85FC11DD-4CCA-4B27-AFB3-876854BB5C3B"];
+    #warning switch iBeacon/iPad
+    NSUUID *plasticOmiumUUID = [[NSUUID alloc] initWithUUIDString:@"EC6F3659-A8B9-4434-904C-A76F788DAC43"];
     
     [[BeaconMonitoringService sharedInstance] startMonitoringBeaconWithUUID:plasticOmiumUUID
-                                                                      major:523
-                                                                      minor:220
+                                                                      major:0
+                                                                      minor:0
                                                                  identifier:kBeaconIdentifier
                                                                     onEntry:YES
                                                                      onExit:YES];
+
+//    NSUUID *iBeacon = [[NSUUID alloc] initWithUUIDString:@"85FC11DD-4CCA-4B27-AFB3-876854BB5C3B"];
+//    
+//    [[BeaconMonitoringService sharedInstance] startMonitoringBeaconWithUUID:iBeacon
+//                                                                      major:523
+//                                                                      minor:220
+//                                                                 identifier:kBeaconIdentifier
+//                                                                    onEntry:YES
+//                                                                     onExit:YES];
 
 }
 
