@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		380219D319D4624F00C6415C /* MPConnectivityHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 380219D219D4624F00C6415C /* MPConnectivityHandler.m */; };
 		380D47BA19CB1B2000E49394 /* Event.m in Sources */ = {isa = PBXBuildFile; fileRef = 380D47B919CB1B2000E49394 /* Event.m */; };
 		380D47BD19CB1B2000E49394 /* Client.m in Sources */ = {isa = PBXBuildFile; fileRef = 380D47BC19CB1B2000E49394 /* Client.m */; };
 		383D4B7819C9EEBE0046DD2F /* LoginVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 383D4B7719C9EEBE0046DD2F /* LoginVC.m */; };
@@ -67,6 +68,8 @@
 
 /* Begin PBXFileReference section */
 		1770ED71EDCE489DB2D8CF29 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
+		380219D119D4624F00C6415C /* MPConnectivityHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MPConnectivityHandler.h; path = ../MPConnectivityHandler.h; sourceTree = "<group>"; };
+		380219D219D4624F00C6415C /* MPConnectivityHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MPConnectivityHandler.m; path = ../MPConnectivityHandler.m; sourceTree = "<group>"; };
 		380D47B819CB1B2000E49394 /* Event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Event.h; sourceTree = "<group>"; };
 		380D47B919CB1B2000E49394 /* Event.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Event.m; sourceTree = "<group>"; };
 		380D47BB19CB1B2000E49394 /* Client.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Client.h; sourceTree = "<group>"; };
@@ -171,6 +174,8 @@
 			children = (
 				3884B22019CC684600E8CBE2 /* BeaconAdvertisingService.h */,
 				3884B22119CC684600E8CBE2 /* BeaconAdvertisingService.m */,
+				380219D119D4624F00C6415C /* MPConnectivityHandler.h */,
+				380219D219D4624F00C6415C /* MPConnectivityHandler.m */,
 			);
 			name = iBeacon;
 			sourceTree = "<group>";
@@ -178,9 +183,9 @@
 		38BEA16719C9BF5400A560C3 = {
 			isa = PBXGroup;
 			children = (
-				38BEA17B19C9BF5500A560C3 /* AppExposantGeoDetect */,
+				38BEA17B19C9BF5500A560C3 /* AppExposantGeoDetect - Ipad */,
 				38BEA1A119C9BF5500A560C3 /* AppExposantGeoDetectTests */,
-				38BEA1B919C9BF8600A560C3 /* AppClientGeoDetect */,
+				38BEA1B919C9BF8600A560C3 /* AppClientGeoDetect - Iphone */,
 				38BEA1D719C9BF8600A560C3 /* AppClientGeoDetectTests */,
 				38BEA17219C9BF5500A560C3 /* Frameworks */,
 				38BEA17119C9BF5500A560C3 /* Products */,
@@ -213,7 +218,7 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		38BEA17B19C9BF5500A560C3 /* AppExposantGeoDetect */ = {
+		38BEA17B19C9BF5500A560C3 /* AppExposantGeoDetect - Ipad */ = {
 			isa = PBXGroup;
 			children = (
 				3884B22319CC684D00E8CBE2 /* iBeacon */,
@@ -230,6 +235,7 @@
 				380D47BC19CB1B2000E49394 /* Client.m */,
 				38BEA17C19C9BF5500A560C3 /* Supporting Files */,
 			);
+			name = "AppExposantGeoDetect - Ipad";
 			path = AppExposantGeoDetect;
 			sourceTree = "<group>";
 		};
@@ -262,7 +268,7 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		38BEA1B919C9BF8600A560C3 /* AppClientGeoDetect */ = {
+		38BEA1B919C9BF8600A560C3 /* AppClientGeoDetect - Iphone */ = {
 			isa = PBXGroup;
 			children = (
 				38AEAC9919D2C8AF002E8E59 /* peerID.txt */,
@@ -278,6 +284,7 @@
 				38BEA1CB19C9BF8600A560C3 /* Images.xcassets */,
 				38BEA1BA19C9BF8600A560C3 /* Supporting Files */,
 			);
+			name = "AppClientGeoDetect - Iphone";
 			path = AppClientGeoDetect;
 			sourceTree = "<group>";
 		};
@@ -516,6 +523,7 @@
 				38BEA18619C9BF5500A560C3 /* AppDelegate.m in Sources */,
 				3884B22219CC684600E8CBE2 /* BeaconAdvertisingService.m in Sources */,
 				38BEA18219C9BF5500A560C3 /* main.m in Sources */,
+				380219D319D4624F00C6415C /* MPConnectivityHandler.m in Sources */,
 				38BEA18C19C9BF5500A560C3 /* AppExposantGeoDetect.xcdatamodeld in Sources */,
 				380D47BA19CB1B2000E49394 /* Event.m in Sources */,
 				380D47BD19CB1B2000E49394 /* Client.m in Sources */,

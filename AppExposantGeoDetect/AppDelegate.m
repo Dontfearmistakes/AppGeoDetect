@@ -12,18 +12,11 @@
 #import "Event.h"
 #import "Client.h"
 
-NSString *const kServiceType = @"rw-cardshare";
-NSString *const DataReceivedNotification = @"com.razeware.apps.CardShare:DataReceivedNotification";
-BOOL const kProgrammaticDiscovery = YES;
 
-// Invitation handler definition
-typedef void(^InvitationHandler)(BOOL accept, MCSession *session);
 
-@interface AppDelegate ()<MCSessionDelegate, MCNearbyServiceAdvertiserDelegate, UIAlertViewDelegate>
+@interface AppDelegate ()<UIAlertViewDelegate>
 
-@property (strong, nonatomic) MCAdvertiserAssistant *advertiserAssistant;
-@property (strong, nonatomic) MCNearbyServiceAdvertiser *advertiser;
-@property (copy, nonatomic) InvitationHandler handler;
+
 
 @end
 
@@ -35,64 +28,26 @@ typedef void(^InvitationHandler)(BOOL accept, MCSession *session);
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    ////////////////////////////////
-    //MULTIPEER CONNECTIVITY////////
-    ////////////////////////////////
-    
-    //1) Set up a peer
-    NSString *peerName = [[UIDevice currentDevice] name];
-    self.peerId = [[MCPeerID alloc] initWithDisplayName:peerName];
-    
-    
 
-    
-    //2) Set up a session
-    self.session = [[MCSession alloc] initWithPeer:self.peerId
-                                  securityIdentity:nil
-                              encryptionPreference:MCEncryptionNone];
-    
-    // Set the session delegate
-    self.session.delegate = self;
-    
-    
-    //3) Set up an advertiser
-    if (kProgrammaticDiscovery)
-    {
-        // Set it up programmatically
-        self.advertiser = [[MCNearbyServiceAdvertiser alloc]
-                           initWithPeer:self.peerId
-                           discoveryInfo:nil
-                           serviceType:kServiceType];
-        self.advertiser.delegate = self;
-        // Start advertising
-        [self.advertiser startAdvertisingPeer];
-    }
-    else
-    {
-//        // Set it up using the convenience class
-//        self.advertiserAssistant = [[MCAdvertiserAssistant alloc] initWithServiceType:kServiceType
-//                                                                        discoveryInfo:nil
-//                                                                              session:self.session];
-//        // Start advertising
-//        [self.advertiserAssistant start];
-    }
+
+
     
     
     //////////////////
     //CORE DATA///////
     //////////////////
     //Insert in Core Data every 2 secs
-    [NSTimer scheduledTimerWithTimeInterval:2.0f
-                                     target:self
-                                   selector:@selector(insertSomethingInCoreData)
-                                   userInfo:nil
-                                    repeats:YES];
+//    [NSTimer scheduledTimerWithTimeInterval:2.0f
+//                                     target:self
+//                                   selector:@selector(insertSomethingInCoreData)
+//                                   userInfo:nil
+//                                    repeats:YES];
     
     /////////////////////////////////
     // Start iBeacon advertising ////
     /////////////////////////////////
     NSUUID *plasticOmiumUUID = [[NSUUID alloc] initWithUUIDString:@"EC6F3659-A8B9-4434-904C-A76F788DAC43"];
-        [[BeaconAdvertisingService sharedInstance] startAdvertisingUUID:plasticOmiumUUID major:0 minor:0];
+    [[BeaconAdvertisingService sharedInstance] startAdvertisingUUID:plasticOmiumUUID major:0 minor:0];
 
     
     return YES;
@@ -100,83 +55,8 @@ typedef void(^InvitationHandler)(BOOL accept, MCSession *session);
 
 
 
-#pragma mark - MCNearbyServiceAdvertiserDelegate delegate methods
-- (void)advertiser:(MCNearbyServiceAdvertiser *)advertiser didReceiveInvitationFromPeer:(MCPeerID *)peerID withContext:(NSData *)context invitationHandler:(void (^)(BOOL, MCSession *))invitationHandler
-{
-    // Save the invitation handler for later use
-    self.handler = invitationHandler;
 
-    // Call the invitation handler
-    self.handler(YES, self.session);
-    
-    [self.advertiser stopAdvertisingPeer];
-}
-
--(void)advertiser:(MCNearbyServiceAdvertiser *)advertiser didNotStartAdvertisingPeer:(NSError *)error
-{
-    
-}
-
-
-
-#pragma mark - MCSessionDelegate delegate methods
-- (void)session:(MCSession *)session peer:(MCPeerID *)peerID didChangeState:(MCSessionState)state
-{
-    if (state == MCSessionStateConnected && self.session)
-    {
-        // For programmatic discovery, send a notification to the custom browser
-        // that an invitation was accepted.
-        [[NSNotificationCenter defaultCenter]
-         postNotificationName:@"PeerConnectionAcceptedNotification"
-         object:nil
-         userInfo:@{
-                    @"peer": peerID,
-                    @"accept" : @YES
-                    }];
-    }
-    else if (state == MCSessionStateNotConnected && self.session)
-    {
-        // For programmatic discovery, send a notification to the custom browser
-        // that an invitation was declined.
-        // Send only if the peers are not yet connected
-        if (![self.session.connectedPeers containsObject:peerID]) {
-            [[NSNotificationCenter defaultCenter]
-             postNotificationName:@"PeerConnectionAcceptedNotification"
-             object:nil
-             userInfo:@{
-                        @"peer": peerID,
-                        @"accept" : @NO
-                        }];
-        }
-    }
-}
-
-- (void)session:(MCSession *)session didReceiveData:(NSData *)data fromPeer:(MCPeerID *)peerID
-{
-    // Get the data to be stored
-    NSString *firstNameLastName = [NSString stringWithUTF8String:data.bytes];
-    
-    // Trigger a notification that data was received
-    [[NSNotificationCenter defaultCenter] postNotificationName:DataReceivedNotification object:nil];
-}
-
-- (void)session:(MCSession *)session didReceiveStream:(NSInputStream *)stream withName:(NSString *)streamName fromPeer:(MCPeerID *)peerID
-{
-}
-
-- (void)session:(MCSession *)session didFinishReceivingResourceWithName:(NSString *)resourceName fromPeer:(MCPeerID *)peerID atURL:(NSURL *)localURL withError:(NSError *)error
-{
-}
-
-- (void)session:(MCSession *)session didStartReceivingResourceWithName:(NSString *)resourceName fromPeer:(MCPeerID *)peerID withProgress:(NSProgress *)progress
-{
-}
-
-
-
-
-
-- (void) insertSomethingInCoreData
+- (void) insertEventInCoreDataWithFirstName:(NSString*)firstName LastName:(NSString*)lastname andInOrOut:(NSNumber*)inOrOut
 {
     Event  * event1  = nil;
     Client * client1 = nil;
@@ -187,15 +67,18 @@ typedef void(^InvitationHandler)(BOOL accept, MCSession *session);
     client1 = [NSEntityDescription insertNewObjectForEntityForName:@"Client"
                                             inManagedObjectContext:self.managedObjectContext];
     
-    client1.firstName = @"Max";
-    client1.lastName  = @"Bernard";
+    client1.firstName = firstName;
+    client1.lastName  = lastname;
     
-    event1.inOrOut = @0;
+    event1.inOrOut = inOrOut;
     event1.timestamp = [NSDate date];
     event1.client = client1;
     
     NSError* error0 = nil;
     [self.managedObjectContext save:&error0];
+    
+    // Trigger a notification that data was received
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"Core Data Update" object:nil];
 }
 
 
@@ -219,6 +102,11 @@ typedef void(^InvitationHandler)(BOOL accept, MCSession *session);
         } 
     }
 }
+
+
+
+
+////
 
 #pragma mark - Core Data stack
 

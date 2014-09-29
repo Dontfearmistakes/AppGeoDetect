@@ -7,6 +7,8 @@
 //
 
 #import "BeaconAdvertisingService.h"
+#import "MPConnectivityHandler.h"
+#import "MasterViewController.h"
 
 @import CoreBluetooth;
 
@@ -14,11 +16,13 @@ NSString * const kBeaconIdentifier = @"com.razeware.waitlist";
 
 @interface BeaconAdvertisingService () <CBPeripheralManagerDelegate>
 
-@property (nonatomic, readwrite, getter = isAdvertising) BOOL advertising;
+
 @property (assign) BOOL needsStartAdvertising;
 @property (strong) NSUUID *currentUUID;
 @property (assign) CLBeaconMajorValue currentMajor;
 @property (assign) CLBeaconMajorValue currentMinor;
+
+
 
 @end
 
@@ -88,7 +92,7 @@ NSString * const kBeaconIdentifier = @"com.razeware.waitlist";
 - (void)stopAdvertising
 {
     [_peripheralManager stopAdvertising];
-    self.advertising = NO;
+    self.isAdvertising = NO;
 }
 
 //Le Bluetooth a changé d'Etat
@@ -112,8 +116,14 @@ NSString * const kBeaconIdentifier = @"com.razeware.waitlist";
             [[[UIAlertView alloc] initWithTitle:@"Cannot Advertise Beacon" message:@"There was an issue starting the advertisement of your beacon." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
             NSLog(@"Start Advertising Error: %@", error);
         } else {
-            NSLog(@"Advertising!");
-            self.advertising = YES;
+            NSLog(@"Advertising iBeacon!");
+            self.isAdvertising = YES;
+            
+            ////////////////////////////////////////////////////////////////////////////////
+            // ET MAINTENANT QUE L'iBEACON A COMMENCE A EMETTRE --> ON LANCE MP CONNECTIVITY
+            ////////////////////////////////////////////////////////////////////////////////
+            self.mpConnectHandler = [[MPConnectivityHandler alloc]init];
+            [self.mpConnectHandler setUpPeerSessionAndStartAdvertising];
         }
     });
 }

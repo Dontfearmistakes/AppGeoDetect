@@ -22,5 +22,7 @@
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *clearAllBarButton;
 - (IBAction)clearAllBarButtonClick:(id)sender;
 
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *iBeaconConnectButton;
+- (IBAction)iBeaconConnectButtonClick:(id)sender;
 
 @end

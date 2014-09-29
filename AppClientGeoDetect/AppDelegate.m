@@ -8,18 +8,16 @@
 
 #import "AppDelegate.h"
 #import "BeaconMonitoringService.h"
-
+#import <GSKeychain/GSKeychain.h>
 
 NSString *const DataReceivedNotification = @"com.razeware.apps.CardShare:DataReceivedNotification";
-BOOL      const kProgrammaticDiscovery = YES;
 NSString *const PeerConnectionAcceptedNotification = @"com.razeware.apps.CardShare:PeerConnectionAcceptedNotification";
 
 
 @interface AppDelegate ()<MCSessionDelegate, MCNearbyServiceBrowserDelegate>
 
-@property (strong, nonatomic) MCNearbyServiceBrowser *browser;
-
 @property (assign) BOOL isConnecting;
+@property (strong) NSData *pendingData;
 
 @end
 
@@ -27,6 +25,7 @@ NSString *const PeerConnectionAcceptedNotification = @"com.razeware.apps.CardSha
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    
     ////////////////////////////////
     //MULTIPEER CONNECTIVITY////////
     ////////////////////////////////
@@ -39,13 +38,9 @@ NSString *const PeerConnectionAcceptedNotification = @"com.razeware.apps.CardSha
                                   securityIdentity:nil
                               encryptionPreference:MCEncryptionNone];
     
-
+    
     self.session.delegate = self;
     
-    
-
-    
-
     
     /////////////////
     //iBEACON////////
@@ -53,196 +48,230 @@ NSString *const PeerConnectionAcceptedNotification = @"com.razeware.apps.CardSha
     [[BeaconMonitoringService sharedInstance] stopMonitoringAllRegions];
     
     //Demande au user "voulez vous activer les notifs ?" (iOS 8 only)
-    #warning (un)comment when iOS7(8)
-    UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert|UIUserNotificationTypeSound|UIUserNotificationTypeBadge categories:nil];
-    [application registerUserNotificationSettings:settings];
-    
-    //Start monitoring iBeacons
-    #warning switch iBeacon/iPad
-    NSUUID *plasticOmiumUUID = [[NSUUID alloc] initWithUUIDString:@"EC6F3659-A8B9-4434-904C-A76F788DAC43"];
-    
-        [[BeaconMonitoringService sharedInstance] startMonitoringBeaconWithUUID:plasticOmiumUUID
-                                                                          major:0
-                                                                          minor:0
-                                                                     identifier:@"com.razeware.waitlist"
-                                                                        onEntry:YES
-                                                                         onExit:YES];
-    
-//        NSUUID *ibeaconUUID = [[NSUUID alloc] initWithUUIDString:@"85FC11DD-4CCA-4B27-AFB3-876854BB5C3B"];
-//        [[BeaconMonitoringService sharedInstance] startMonitoringBeaconWithUUID:ibeaconUUID
-//                                                                          major:523
-//                                                                          minor:220
-//                                                                     identifier:@"com.razeware.waitlist"
-//                                                                        onEntry:YES
-//                                                                         onExit:YES];
-
+    if([application respondsToSelector:@selector(registerUserNotificationSettings:)])
+    {
+        UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert|UIUserNotificationTypeSound|UIUserNotificationTypeBadge categories:nil];
+        [application registerUserNotificationSettings:settings];
+    }
     
     return YES;
 }
 
 
 
--(void)setUpBrowser
+-(void)startBrowsing
 {
-    //3 Set up a browser, programmatically
-    self.browser = [[MCNearbyServiceBrowser alloc] initWithPeer:self.peerId serviceType:@"rw-cardshare"];
-    self.browser.delegate = self;
+    // 3) Set up a browser, si c'est pas déjà fait auparavant
+    if(!self.browser)
+    {
+        self.browser = [[MCNearbyServiceBrowser alloc] initWithPeer:self.peerId
+                                                        serviceType:@"rw-cardshare"];
+        self.browser.delegate = self;
+    }
+    
     [self.browser startBrowsingForPeers];
+    //Call back : -foundPeer
 }
 
 
+
+
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
 #pragma mark MCNearbyServiceBrowserDelegate delegate methods
-- (void)browser:(MCNearbyServiceBrowser *)browser didNotStartBrowsingForPeers:(NSError *)error
-{
-    NSLog(@"Error browsing: %@", error.localizedDescription);
-}
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
 
 - (void)browser:(MCNearbyServiceBrowser *)browser foundPeer:(MCPeerID *)peerID withDiscoveryInfo:(NSDictionary *)info
 {
-    //Pour n'envoyer qu'une seule invit (ne rentrer qu'une fois dans la boucle)
+    //isConnecting pour n'envoyer qu'une seule invit (un BOOL est à NO par défaut)
     if(!self.isConnecting)
     {
-        self.isConnecting =YES;
-        NSData *toSend = [@"toto" dataUsingEncoding:NSUTF8StringEncoding];
-        [self.browser invitePeer:peerID toSession:self.session withContext:toSend timeout:100];
-    }
-    
-    
-    //multipeer comunication
-    
-    /*
-     If the developer chooses to write their own discovery code (with
-     NetServices, or the Bonjour C API directly), instead of using
-     MCNearbyServiceAdvertiser/Browser or MCBrowserViewController, one can
-     add a remote peer to a MCSession by following these steps:
-     
-     1. Exchange MCPeerID with the remote peer.  Start by serializing the
-     MCPeerID object with NSKeyedArchiver, exchange the data with
-     the remote peer, and then reconstruct the remote MCPeerID object
-     with NSKeyedUnarchiver.
-     2. Exchange connection data with the remote peer.  Start by calling the
-     session's -nearbyConnectionDataForPeer:completionHandler: and send
-     the connection data to the remote peer, once the completionHandler
-     is called.
-     3. When the remote peer's connection data is received, call the
-     session's -connectPeer:withNearbyConnectionData: method to add the
-     remote peer to the session.
-     */
-    
-    
-//    NSString *filePath        = [[NSBundle mainBundle] pathForResource:@"peerID" ofType:@"txt"];
-//    MCPeerID *destinationPeer = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
-    
-//    [self.session nearbyConnectionDataForPeer:peerID withCompletionHandler:^(NSData *connectionData, NSError *error) {
-//        if(!error && connectionData)
-//        {
-//            
-//            [self.session connectPeer:peerID
-//             withNearbyConnectionData:connectionData];
-//            
-//            //NSData *toSend = [@"toto" dataUsingEncoding:NSUTF8StringEncoding];
-//            
-//            [self.session sendData:connectionData
-//                           toPeers:@[peerID]
-//                          withMode:MCSessionSendDataReliable
-//                             error:&error];
-//            
-//        }
-//    }];
-
-}
-
-- (void)browser:(MCNearbyServiceBrowser *)browser lostPeer:(MCPeerID *)peerID
-{
-
-}
-
-
-#pragma mark - MCSessionDelegate delegate methods
-
-//Called when the state of a nearby peer changes.
-- (void)session:(MCSession *)session peer:(MCPeerID *)peerID didChangeState:(MCSessionState)state
-{
-    self.isConnecting = NO;
-
-    if (state == MCSessionStateConnected && self.session)
-    {
-        // For programmatic discovery, send a notification to the custom browser
-        // that an invitation was accepted.
-        [[NSNotificationCenter defaultCenter]
-         postNotificationName:PeerConnectionAcceptedNotification
-         object:nil
-         userInfo:@{
-                    @"peer": peerID,
-                    @"accept" : @YES
-                    }];
+        [self.browser stopBrowsingForPeers];
+         self.isConnecting =YES;
         
-        NSData *toSend = [@"toto" dataUsingEncoding:NSUTF8StringEncoding];
-        NSError *error;
-        [self.session sendData:toSend
-                                    toPeers:self.session.connectedPeers
-                                   withMode:MCSessionSendDataReliable
-                                      error:&error];
-
+        NSLog(@"Found Peer, Invite Peer !");
+        
+        //Stocke DestinationPeerID pour éviter de devoir ré-inviter si besoin de renvoyer des infos plus tard
+        self.destinationPeerID = peerID;
+        
+        [self.browser invitePeer:peerID
+                       toSession:self.session
+                     withContext:nil
+                         timeout:100];
+        //Call back : -sessionDidChangeState
     }
-    else if (state == MCSessionStateNotConnected && self.session)
+}
+    
+    - (void)browser:(MCNearbyServiceBrowser *)browser lostPeer:(MCPeerID *)peerID
     {
-        // For programmatic discovery, send a notification to the custom browser
-        // that an invitation was declined.
-        // Send only if the peers are not yet connected
-        if (![self.session.connectedPeers containsObject:peerID]) {
+        
+    }
+
+    - (void)browser:(MCNearbyServiceBrowser *)browser didNotStartBrowsingForPeers:(NSError *)error
+    {
+        NSLog(@"Error browsing: %@", error.localizedDescription);
+    }
+
+
+
+
+////////////////////////////////////////////////
+////////////////////////////////////////////////
+#pragma mark - MCSessionDelegate delegate methods
+////////////////////////////////////////////////
+////////////////////////////////////////////////
+
+    //Called when the state of a nearby peer changes.
+    - (void)session:(MCSession *)session peer:(MCPeerID *)peerID didChangeState:(MCSessionState)state
+    {
+        self.isConnecting = NO;
+        
+        NSString *toDisplay;
+        switch (state)
+        {
+            case MCSessionStateConnected:
+                toDisplay =@"MCSessionStateConnected";
+                self.isMCStateSessionConnected = YES;
+                break;
+            case MCSessionStateConnecting:
+                toDisplay =@"MCSessionStateConnecting";
+                self.isMCStateSessionConnected = NO;
+                break;
+            case MCSessionStateNotConnected:
+                toDisplay =@"MCSessionStateNotConnected";
+                self.isMCStateSessionConnected = NO;
+                break;
+                
+            default:
+                break;
+        }
+        NSLog(@"state : %@", toDisplay);
+        
+        
+        if (state == MCSessionStateConnected && self.session)
+        {
+            // For programmatic discovery, send a notification to the custom browser
+            // that an invitation was accepted.
             [[NSNotificationCenter defaultCenter]
              postNotificationName:PeerConnectionAcceptedNotification
              object:nil
              userInfo:@{
                         @"peer": peerID,
-                        @"accept" : @NO
+                        @"accept" : @YES
                         }];
             
-            //try to reconect
-            [self browser:self.browser foundPeer:peerID withDiscoveryInfo:nil];
+            // NOW THAT WE ARE CONNECTED THROUGH MPCONNECTIVITY
+            // LET'S SEND OUR FIRSTNAME/LASTNAME IF STATED
+            if(self.pendingData)
+            {
+                [self sendMPMessage:self.pendingData];
+            }
+            
             
         }
+        else if (state == MCSessionStateNotConnected && self.session)
+        {
+            // For programmatic discovery, send a notification to the custom browser
+            // that an invitation was declined.
+            // Send only if the peers are not yet connected
+            if (![self.session.connectedPeers containsObject:peerID]) {
+                [[NSNotificationCenter defaultCenter]
+                 postNotificationName:PeerConnectionAcceptedNotification
+                 object:nil
+                 userInfo:@{
+                            @"peer": peerID,
+                            @"accept" : @NO
+                            }];
+            }
+        }
     }
-}
 
 
--(void)session:(MCSession *)session didReceiveCertificate:(NSArray *)certificate fromPeer:(MCPeerID *)peerID certificateHandler:(void (^)(BOOL))certificateHandler
-{
-    if (certificateHandler != nil)
-        certificateHandler(YES);
-}
-
-- (void)session:(MCSession *)session didReceiveData:(NSData *)data fromPeer:(MCPeerID *)peerID
-{
-
-    // Trigger a notification that data was received
-    [[NSNotificationCenter defaultCenter] postNotificationName:DataReceivedNotification object:nil];
-}
-
-- (void)session:(MCSession *)session didReceiveStream:(NSInputStream *)stream withName:(NSString *)streamName fromPeer:(MCPeerID *)peerID
-{
-}
-
-- (void)session:(MCSession *)session didFinishReceivingResourceWithName:(NSString *)resourceName fromPeer:(MCPeerID *)peerID atURL:(NSURL *)localURL withError:(NSError *)error
-{
-}
-
-- (void)session:(MCSession *)session didStartReceivingResourceWithName:(NSString *)resourceName fromPeer:(MCPeerID *)peerID withProgress:(NSProgress *)progress
-{
-}
-
-
-
-
-
-
-
-
-
-- (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification
-{
-
-}
-
-@end
+    -(void)sendMPMessage:(NSData*)data;
+    {
+        // Si on notre destinationPeer est toujours connecté à notre MCSession
+        // Alors on envoi direct
+        if([[self.session connectedPeers] count] > 0)
+        {
+            NSError *error;
+            [self.session sendData:data
+                           toPeers:self.session.connectedPeers
+                          withMode:MCSessionSendDataReliable
+                             error:&error];
+            
+            if(error)
+            {
+                NSLog(@"unable to send message : %@",error.localizedDescription);
+                self.pendingData = nil;
+            }
+            else
+            {
+                NSLog(@"message sent");
+            }
+        }
+        // Si on à pas/plus de peer connecté à notre session
+        else
+        {
+            // On enregistre la data pour pouvoir l'envoyer
+            // avec sendData dès que la MPConnection aura abouti
+            self.pendingData = data;
+            
+            // Soit il nous reste le self.destinationPeerID d'une précedente connection
+            // Du coup il suffit de ré-inviter
+            if(self.destinationPeerID)
+            {
+                [self.browser invitePeer:self.destinationPeerID
+                               toSession:self.session
+                             withContext:nil
+                                 timeout:100];
+            }
+            // Soit on a pas de self.destinationPeerID et on recommence tout avec un browse
+            else
+            {
+                [self startBrowsing];
+            }
+        }
+      
+    }
+    
+    
+    -(void)session:(MCSession *)session didReceiveCertificate:(NSArray *)certificate fromPeer:(MCPeerID *)peerID certificateHandler:(void (^)(BOOL))certificateHandler
+    {
+        if (certificateHandler != nil)
+            certificateHandler(YES);
+    }
+    
+    - (void)session:(MCSession *)session didReceiveData:(NSData *)data fromPeer:(MCPeerID *)peerID
+    {
+        
+        // Trigger a notification that data was received
+        [[NSNotificationCenter defaultCenter] postNotificationName:DataReceivedNotification object:nil];
+    }
+    
+    - (void)session:(MCSession *)session didReceiveStream:(NSInputStream *)stream withName:(NSString *)streamName fromPeer:(MCPeerID *)peerID
+    {
+    }
+    
+    - (void)session:(MCSession *)session didFinishReceivingResourceWithName:(NSString *)resourceName fromPeer:(MCPeerID *)peerID atURL:(NSURL *)localURL withError:(NSError *)error
+    {
+    }
+    
+    - (void)session:(MCSession *)session didStartReceivingResourceWithName:(NSString *)resourceName fromPeer:(MCPeerID *)peerID withProgress:(NSProgress *)progress
+    {
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification
+    {
+        
+    }
+    
+    @end

@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <MultipeerConnectivity/MultipeerConnectivity.h>
 
 // The service type identifier
 extern NSString * const kServiceType;
@@ -24,10 +23,10 @@ extern BOOL const kProgrammaticDiscovery;
 @property (readonly, strong, nonatomic) NSManagedObjectModel *managedObjectModel;
 @property (readonly, strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 
-@property (strong, nonatomic) MCSession *session;
-@property (strong, nonatomic) MCPeerID *peerId;
+
 
 - (void)saveContext;
 - (NSURL *)applicationDocumentsDirectory;
+- (void) insertEventInCoreDataWithFirstName:(NSString*)firstName LastName:(NSString*)lastname andInOrOut:(NSNumber*)inOrOut;
 
 @end

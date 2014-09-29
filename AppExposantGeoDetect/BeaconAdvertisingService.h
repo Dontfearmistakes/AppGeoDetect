@@ -7,14 +7,17 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "MPConnectivityHandler.h"
 
 @import CoreLocation;
 
 @interface BeaconAdvertisingService : NSObject
 
-@property (nonatomic, readonly, getter = isAdvertising) BOOL advertising;
+@property (assign) BOOL isAdvertising;
+@property (strong) MPConnectivityHandler *mpConnectHandler;
 
 + (BeaconAdvertisingService *)sharedInstance;
+
 
 - (void)startAdvertisingUUID:(NSUUID *)uuid major:(CLBeaconMajorValue)major minor:(CLBeaconMinorValue)minor;
 - (void)stopAdvertising;

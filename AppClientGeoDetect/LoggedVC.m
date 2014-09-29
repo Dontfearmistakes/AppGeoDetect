@@ -9,6 +9,7 @@
 #import "LoggedVC.h"
 #import <GSKeychain/GSKeychain.h>
 #import "AppDelegate.h"
+#import "BeaconMonitoringService.h"
 
 @interface LoggedVC ()
 
@@ -53,26 +54,28 @@
 }
 
 
-
+// Choix d'afficher le lggedVC ou le loginVC ??
+// Le Keychain est il rempli ou vide ??
 -(void)viewWillAppear:(BOOL)animated
 {
     // Is there a firstname/lastname in the keychain ?
-    NSString *firstnameInKC = [[GSKeychain systemKeychain] secretForKey:@"firstName"];
+    NSString *firstnameInKC = [NSString stringWithFormat:@"%@",[[GSKeychain systemKeychain] secretForKey:@"firstName"] ];
     
-    // If not, ask first/lastname
-    if (firstnameInKC == nil)
+    // If not loginVC
+    if ([firstnameInKC isEqualToString:@"(null)"])
     {
-        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-        UIViewController *loginVC = [storyboard instantiateViewControllerWithIdentifier:@"LoginVC"];
-        loginVC.modalPresentationStyle = UIModalPresentationFullScreen;
+        UIStoryboard     * storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        UIViewController * loginVC    = [storyboard instantiateViewControllerWithIdentifier:@"LoginVC"];
+                           loginVC.modalPresentationStyle = UIModalPresentationFullScreen;
         
         [self.navigationController presentViewController:loginVC animated:NO completion:nil];
         
     }
-    // Si oui
+    // Si oui loggedVC
     else
     {
-        self.firstNameLastNameLabel.text = [NSString stringWithFormat:@"%@ %@", [[GSKeychain systemKeychain] secretForKey:@"firstName"], [[GSKeychain systemKeychain] secretForKey:@"lastName"]];
+        self.firstNameLastNameLabel.text = [NSString stringWithFormat:@"%@ %@", [[GSKeychain systemKeychain] secretForKey:@"firstName"],
+                                                                                [[GSKeychain systemKeychain] secretForKey:@"lastName"]];
     }
 
 }
@@ -82,15 +85,10 @@
 - (IBAction)clickOnDisconnectButton:(id)sender
 {
     [[GSKeychain systemKeychain] removeAllSecrets];
+    [[BeaconMonitoringService sharedInstance] stopMonitoringAllRegions];
 }
 
-//Call appDelegate method that starts browsing for peers
-- (IBAction)goBrowse:(id)sender {
-    
-    AppDelegate *appD = [[UIApplication sharedApplication] delegate];
-    [appD setUpBrowser];
-    
-}
+
 
 
 @end

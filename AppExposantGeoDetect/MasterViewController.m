@@ -7,7 +7,7 @@
 //
 
 #import "MasterViewController.h"
-
+#import "BeaconAdvertisingService.h"
 #import "AppDelegate.h"
 #import "Client.h"
 #import "Event.h"
@@ -15,6 +15,7 @@
 
 @interface MasterViewController ()
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
+@property (assign) BOOL isIBeaconBroacasting;
 @end
 
 @implementation MasterViewController
@@ -29,11 +30,15 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
-    
-    
     AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication]delegate];
     self.managedObjectContext = [appDelegate managedObjectContext];
+    
+    
+    //Quand l'iPad reçoit de la data, refresh le table view
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(controllerDidChangeContent:)
+                                                 name:@"Core Data Update"
+                                               object:nil];
 }
 
 
@@ -238,6 +243,7 @@
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
 {
+    [self.tableView reloadData];
     [self.tableView endUpdates];
 }
 
@@ -253,4 +259,19 @@
 
 
 
+- (IBAction)iBeaconConnectButtonClick:(id)sender
+{
+    if ([[BeaconAdvertisingService sharedInstance] isAdvertising])
+    {
+        [[BeaconAdvertisingService sharedInstance] stopAdvertising];
+        [self.iBeaconConnectButton setTitle:@"Start iBeacon Advertising"];
+    }
+    else
+    {
+        NSUUID *plasticOmiumUUID = [[NSUUID alloc] initWithUUIDString:@"EC6F3659-A8B9-4434-904C-A76F788DAC43"];
+        [[BeaconAdvertisingService sharedInstance] startAdvertisingUUID:plasticOmiumUUID major:0 minor:0];
+        [self.iBeaconConnectButton setTitle:@"Stop iBeacon Advertising"];
+    }
+    
+}
 @end

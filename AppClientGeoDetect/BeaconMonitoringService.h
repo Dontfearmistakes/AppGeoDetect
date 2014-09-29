@@ -21,5 +21,6 @@
                                onExit:(BOOL)exit;
 
 - (void)stopMonitoringAllRegions;
+@property (assign) BOOL isIBeaconConnected;
 
 @end

@@ -13,10 +13,19 @@
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
+extern NSString *const PeerConnectionAcceptedNotification;
+
+
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) MCSession *session;
 @property (strong, nonatomic) MCPeerID *peerId;
--(void)setUpBrowser;
-extern NSString *const PeerConnectionAcceptedNotification;
+
+@property (assign) BOOL       isMCStateSessionConnected;
+@property (strong, nonatomic) MCNearbyServiceBrowser *browser;
+@property (strong, nonatomic) MCPeerID               *destinationPeerID;
+
+
+-(void)startBrowsing;
+-(void)sendMPMessage:(NSData*)data;
 
 @end
