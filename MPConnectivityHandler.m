@@ -141,17 +141,13 @@ NSString *const kServiceType = @"rw-cardshare";
 
 - (void)session:(MCSession *)session didReceiveData:(NSData *)data fromPeer:(MCPeerID *)peerID
 {
-    // Get the data to be stored
-    
+
     NSArray * firstNameLastNameInOrOutArray = [NSArray arrayWithArray: (NSArray*)[NSKeyedUnarchiver unarchiveObjectWithData:data]];
-    
-    AppDelegate *appD = [[UIApplication sharedApplication] delegate];
-    [appD insertEventInCoreDataWithFirstName:firstNameLastNameInOrOutArray[0]
-                                    LastName:firstNameLastNameInOrOutArray[1]
-                                  andInOrOut:firstNameLastNameInOrOutArray[2]];
-    
-    // Trigger a notification that data was received
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"iPad received data" object:nil];
+    if (firstNameLastNameInOrOutArray[0] && firstNameLastNameInOrOutArray[1] && firstNameLastNameInOrOutArray[2])
+    {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"iPad received data"
+                                                            object:self userInfo:@{@"info":firstNameLastNameInOrOutArray}];
+    }
 }
 
 

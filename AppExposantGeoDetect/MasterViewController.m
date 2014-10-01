@@ -14,9 +14,14 @@
 
 
 @interface MasterViewController ()
+
+-(void)addRow;
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
 @property (assign) BOOL isIBeaconBroacasting;
+
 @end
+
+
 
 @implementation MasterViewController
 
@@ -30,18 +35,23 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication]delegate];
+    AppDelegate *appDelegate  = (AppDelegate *)[[UIApplication sharedApplication]delegate];
     self.managedObjectContext = [appDelegate managedObjectContext];
     
-    
-    //Quand l'iPad reçoit de la data, refresh le table view
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(controllerDidChangeContent:)
-                                                 name:@"Core Data Update"
+                                             selector:@selector(addRow)
+                                                 name:@"iPad received data"
                                                object:nil];
+
 }
 
+-(void)addRow
+{
+    [self.tableView beginUpdates];
 
+    [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathWithIndex:0]] withRowAnimation:UITableViewRowAnimationFade];
+    [self.tableView endUpdates];
+}
 
 
 - (void)didReceiveMemoryWarning
@@ -80,6 +90,7 @@
 #pragma mark - Table View
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -241,11 +252,7 @@
     }
 }
 
-- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
-{
-    [self.tableView reloadData];
-    [self.tableView endUpdates];
-}
+
 
 /*
 // Implementing the above methods to update the table view in response to individual changes may have performance implications if a large number of changes are made simultaneously. If this proves to be an issue, you can instead just implement controllerDidChangeContent: which notifies the delegate that all section and object changes have been processed.
@@ -257,6 +264,12 @@
 }
  */
 
+
+- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
+{
+    [self.tableView reloadData];
+    [self.tableView endUpdates];
+}
 
 
 - (IBAction)iBeaconConnectButtonClick:(id)sender

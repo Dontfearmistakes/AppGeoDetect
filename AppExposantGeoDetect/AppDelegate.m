@@ -12,7 +12,7 @@
 #import "Event.h"
 #import "Client.h"
 
-
+NSString *const letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
 @interface AppDelegate ()<UIAlertViewDelegate>
 
@@ -26,20 +26,19 @@
 @synthesize managedObjectModel = _managedObjectModel;
 @synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
 
+-(void)applicationDidEnterBackground:(UIApplication *)application
+{
+    NSError* error0 = nil;
+    [self.managedObjectContext save:&error0];
+}  
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
 
-
-
-    
-    
-    //////////////////
-    //CORE DATA///////
-    //////////////////
-    //Insert in Core Data every 2 secs
-//    [NSTimer scheduledTimerWithTimeInterval:2.0f
+    #warning temporary timer, erase this line later
+//    [NSTimer scheduledTimerWithTimeInterval:3.0f
 //                                     target:self
-//                                   selector:@selector(insertSomethingInCoreData)
+//                                   selector:@selector(timerSimulator)
 //                                   userInfo:nil
 //                                    repeats:YES];
     
@@ -52,38 +51,7 @@
     
     return YES;
 }
-
-
-
-
-- (void) insertEventInCoreDataWithFirstName:(NSString*)firstName LastName:(NSString*)lastname andInOrOut:(NSNumber*)inOrOut
-{
-    Event  * event1  = nil;
-    Client * client1 = nil;
     
-    event1 = [NSEntityDescription insertNewObjectForEntityForName:@"Event"
-                                           inManagedObjectContext:self.managedObjectContext];
-    
-    client1 = [NSEntityDescription insertNewObjectForEntityForName:@"Client"
-                                            inManagedObjectContext:self.managedObjectContext];
-    
-    client1.firstName = firstName;
-    client1.lastName  = lastname;
-    
-    event1.inOrOut = inOrOut;
-    event1.timestamp = [NSDate date];
-    event1.client = client1;
-    
-    NSError* error0 = nil;
-    [self.managedObjectContext save:&error0];
-    
-    // Trigger a notification that data was received
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"Core Data Update" object:nil];
-}
-
-
-
-
 
 
 

@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "MPConnectivityHandler.h"
+#import "RootTableViewController.h"
 
 @import CoreLocation;
 
@@ -15,11 +16,13 @@
 
 @property (assign) BOOL isAdvertising;
 @property (strong) MPConnectivityHandler *mpConnectHandler;
+@property (strong, nonatomic) RootTableViewController* rootTblVC;
 
 + (BeaconAdvertisingService *)sharedInstance;
 
 
 - (void)startAdvertisingUUID:(NSUUID *)uuid major:(CLBeaconMajorValue)major minor:(CLBeaconMinorValue)minor;
 - (void)stopAdvertising;
+- (void)switchIBeacon;
 
 @end

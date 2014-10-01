@@ -90,7 +90,7 @@
         
         
         // 2 : CONNECTION AU iBEACON
-            #warning switch iBeacon/iPad
+#warning switch iBeacon/iPad
             NSUUID *plasticOmiumUUID = [[NSUUID alloc] initWithUUIDString:@"EC6F3659-A8B9-4434-904C-A76F788DAC43"];
             
             [[BeaconMonitoringService sharedInstance] startMonitoringBeaconWithUUID:plasticOmiumUUID
@@ -99,14 +99,14 @@
                                                                          identifier:@"com.razeware.waitlist"
                                                                             onEntry:YES
                                                                              onExit:YES];
-            
-            //    NSUUID *ibeaconUUID = [[NSUUID alloc] initWithUUIDString:@"85FC11DD-4CCA-4B27-AFB3-876854BB5C3B"];
-            //    [[BeaconMonitoringService sharedInstance] startMonitoringBeaconWithUUID:ibeaconUUID
-            //                                                                          major:523
-            //                                                                          minor:220
-            //                                                                     identifier:@"com.razeware.waitlist"
-            //                                                                        onEntry:YES
-            //                                                                         onExit:YES];
+        
+//                NSUUID *ibeaconUUID = [[NSUUID alloc] initWithUUIDString:@"85FC11DD-4CCA-4B27-AFB3-876854BB5C3B"];
+//                [[BeaconMonitoringService sharedInstance] startMonitoringBeaconWithUUID:ibeaconUUID
+//                                                                                      major:523
+//                                                                                      minor:220
+//                                                                                 identifier:@"com.razeware.waitlist"
+//                                                                                    onEntry:YES
+//                                                                                     onExit:YES];
         
         
         

@@ -14,6 +14,7 @@ NSString *const DataReceivedNotification = @"com.razeware.apps.CardShare:DataRec
 NSString *const PeerConnectionAcceptedNotification = @"com.razeware.apps.CardShare:PeerConnectionAcceptedNotification";
 
 
+
 @interface AppDelegate ()<MCSessionDelegate, MCNearbyServiceBrowserDelegate>
 
 @property (assign) BOOL isConnecting;
@@ -21,10 +22,22 @@ NSString *const PeerConnectionAcceptedNotification = @"com.razeware.apps.CardSha
 
 @end
 
+
+
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    //Clear keychain on first run in case of reinstallation
+    if (![[NSUserDefaults standardUserDefaults] objectForKey:@"FirstRun"]) {
+        
+        // Delete values from keychain here
+        [[GSKeychain systemKeychain] removeAllSecrets];
+        
+        
+        [[NSUserDefaults standardUserDefaults] setValue:@"1strun" forKey:@"FirstRun"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
     
     ////////////////////////////////
     //MULTIPEER CONNECTIVITY////////
@@ -37,8 +50,6 @@ NSString *const PeerConnectionAcceptedNotification = @"com.razeware.apps.CardSha
     self.session = [[MCSession alloc] initWithPeer:self.peerId
                                   securityIdentity:nil
                               encryptionPreference:MCEncryptionNone];
-    
-    
     self.session.delegate = self;
     
     
@@ -70,6 +81,7 @@ NSString *const PeerConnectionAcceptedNotification = @"com.razeware.apps.CardSha
     }
     
     [self.browser startBrowsingForPeers];
+    NSLog(@"Start Browsing for Peer !");
     //Call back : -foundPeer
 }
 
@@ -87,6 +99,7 @@ NSString *const PeerConnectionAcceptedNotification = @"com.razeware.apps.CardSha
     //isConnecting pour n'envoyer qu'une seule invit (un BOOL est à NO par défaut)
     if(!self.isConnecting)
     {
+        
         [self.browser stopBrowsingForPeers];
          self.isConnecting =YES;
         
@@ -216,15 +229,19 @@ NSString *const PeerConnectionAcceptedNotification = @"com.razeware.apps.CardSha
             // On enregistre la data pour pouvoir l'envoyer
             // avec sendData dès que la MPConnection aura abouti
             self.pendingData = data;
+            self.isConnecting = NO;
             
             // Soit il nous reste le self.destinationPeerID d'une précedente connection
             // Du coup il suffit de ré-inviter
             if(self.destinationPeerID)
             {
-                [self.browser invitePeer:self.destinationPeerID
-                               toSession:self.session
-                             withContext:nil
-                                 timeout:100];
+                #pragma testing
+                [self startBrowsing];
+//                [self.browser invitePeer:self.destinationPeerID
+//                               toSession:self.session
+//                             withContext:nil
+//                                 timeout:100];
+                //Call back : -sessionDidChangeState
             }
             // Soit on a pas de self.destinationPeerID et on recommence tout avec un browse
             else
@@ -244,7 +261,6 @@ NSString *const PeerConnectionAcceptedNotification = @"com.razeware.apps.CardSha
     
     - (void)session:(MCSession *)session didReceiveData:(NSData *)data fromPeer:(MCPeerID *)peerID
     {
-        
         // Trigger a notification that data was received
         [[NSNotificationCenter defaultCenter] postNotificationName:DataReceivedNotification object:nil];
     }

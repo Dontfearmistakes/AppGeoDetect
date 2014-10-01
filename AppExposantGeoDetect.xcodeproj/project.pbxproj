@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		380219D319D4624F00C6415C /* MPConnectivityHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 380219D219D4624F00C6415C /* MPConnectivityHandler.m */; };
+		380219D619D99E1600C6415C /* RootTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 380219D519D99E1600C6415C /* RootTableViewController.m */; };
 		380D47BA19CB1B2000E49394 /* Event.m in Sources */ = {isa = PBXBuildFile; fileRef = 380D47B919CB1B2000E49394 /* Event.m */; };
 		380D47BD19CB1B2000E49394 /* Client.m in Sources */ = {isa = PBXBuildFile; fileRef = 380D47BC19CB1B2000E49394 /* Client.m */; };
 		383D4B7819C9EEBE0046DD2F /* LoginVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 383D4B7719C9EEBE0046DD2F /* LoginVC.m */; };
@@ -70,6 +71,8 @@
 		1770ED71EDCE489DB2D8CF29 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		380219D119D4624F00C6415C /* MPConnectivityHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MPConnectivityHandler.h; path = ../MPConnectivityHandler.h; sourceTree = "<group>"; };
 		380219D219D4624F00C6415C /* MPConnectivityHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MPConnectivityHandler.m; path = ../MPConnectivityHandler.m; sourceTree = "<group>"; };
+		380219D419D99E1600C6415C /* RootTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootTableViewController.h; sourceTree = "<group>"; };
+		380219D519D99E1600C6415C /* RootTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootTableViewController.m; sourceTree = "<group>"; };
 		380D47B819CB1B2000E49394 /* Event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Event.h; sourceTree = "<group>"; };
 		380D47B919CB1B2000E49394 /* Event.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Event.m; sourceTree = "<group>"; };
 		380D47BB19CB1B2000E49394 /* Client.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Client.h; sourceTree = "<group>"; };
@@ -225,6 +228,8 @@
 				38BEA18419C9BF5500A560C3 /* AppDelegate.h */,
 				38BEA18519C9BF5500A560C3 /* AppDelegate.m */,
 				38BEA18719C9BF5500A560C3 /* Main.storyboard */,
+				380219D419D99E1600C6415C /* RootTableViewController.h */,
+				380219D519D99E1600C6415C /* RootTableViewController.m */,
 				38BEA18D19C9BF5500A560C3 /* MasterViewController.h */,
 				38BEA18E19C9BF5500A560C3 /* MasterViewController.m */,
 				38BEA19319C9BF5500A560C3 /* Images.xcassets */,
@@ -405,7 +410,7 @@
 						DevelopmentTeam = 64Z6476XJF;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
-								enabled = 0;
+								enabled = 1;
 							};
 						};
 					};
@@ -522,6 +527,7 @@
 				38BEA18F19C9BF5500A560C3 /* MasterViewController.m in Sources */,
 				38BEA18619C9BF5500A560C3 /* AppDelegate.m in Sources */,
 				3884B22219CC684600E8CBE2 /* BeaconAdvertisingService.m in Sources */,
+				380219D619D99E1600C6415C /* RootTableViewController.m in Sources */,
 				38BEA18219C9BF5500A560C3 /* main.m in Sources */,
 				380219D319D4624F00C6415C /* MPConnectivityHandler.m in Sources */,
 				38BEA18C19C9BF5500A560C3 /* AppExposantGeoDetect.xcdatamodeld in Sources */,
@@ -708,6 +714,7 @@
 				GCC_PREFIX_HEADER = "AppExposantGeoDetect/AppExposantGeoDetect-Prefix.pch";
 				INFOPLIST_FILE = "AppExposantGeoDetect/AppExposantGeoDetect-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 2;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -723,6 +730,7 @@
 				GCC_PREFIX_HEADER = "AppExposantGeoDetect/AppExposantGeoDetect-Prefix.pch";
 				INFOPLIST_FILE = "AppExposantGeoDetect/AppExposantGeoDetect-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 2;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

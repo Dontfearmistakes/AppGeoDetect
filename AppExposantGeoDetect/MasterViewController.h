@@ -12,7 +12,7 @@
 
 #import <CoreData/CoreData.h>
 
-@interface MasterViewController : UITableViewController <NSFetchedResultsControllerDelegate>
+@interface MasterViewController : UITableViewController /*<NSFetchedResultsControllerDelegate>*/
 
 @property (strong, nonatomic) DetailViewController *detailViewController;
 
@@ -24,5 +24,7 @@
 
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *iBeaconConnectButton;
 - (IBAction)iBeaconConnectButtonClick:(id)sender;
+
+
 
 @end

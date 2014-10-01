@@ -35,6 +35,8 @@
                                              selector:@selector(iphoneDidDetermineRegionUIUpdate:)
                                                  name:@"DidDetermineRegionState"
                                                object:nil];
+    
+    [BeaconMonitoringService sharedInstance].loggedVC = self;
 }
 
 -(void)iphoneDidEnterRegionUIUpdate:(NSNotification*)notif
@@ -56,28 +58,25 @@
 
 // Choix d'afficher le lggedVC ou le loginVC ??
 // Le Keychain est il rempli ou vide ??
--(void)viewWillAppear:(BOOL)animated
+-(void)viewDidAppear:(BOOL)animated
 {
     // Is there a firstname/lastname in the keychain ?
-    NSString *firstnameInKC = [NSString stringWithFormat:@"%@",[[GSKeychain systemKeychain] secretForKey:@"firstName"] ];
+    //NSString *firstnameInKC = [NSString stringWithFormat:@"%@",[[GSKeychain systemKeychain] secretForKey:@"firstName"] ];
     
     // If not loginVC
-    if ([firstnameInKC isEqualToString:@"(null)"])
+    if (![[GSKeychain systemKeychain] secretForKey:@"firstName"])
     {
-        UIStoryboard     * storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-        UIViewController * loginVC    = [storyboard instantiateViewControllerWithIdentifier:@"LoginVC"];
-                           loginVC.modalPresentationStyle = UIModalPresentationFullScreen;
-        
-        [self.navigationController presentViewController:loginVC animated:NO completion:nil];
-        
+        [self performSegueWithIdentifier:@"showLogin" sender:self];
     }
-    // Si oui loggedVC
-    else
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    if ([[GSKeychain systemKeychain] secretForKey:@"firstName"])
     {
         self.firstNameLastNameLabel.text = [NSString stringWithFormat:@"%@ %@", [[GSKeychain systemKeychain] secretForKey:@"firstName"],
-                                                                                [[GSKeychain systemKeychain] secretForKey:@"lastName"]];
+                                            [[GSKeychain systemKeychain] secretForKey:@"lastName"]];
     }
-
 }
 
 
@@ -86,6 +85,10 @@
 {
     [[GSKeychain systemKeychain] removeAllSecrets];
     [[BeaconMonitoringService sharedInstance] stopMonitoringAllRegions];
+    NSLog(@"Stop monitoring all regions");
+    
+    [self performSegueWithIdentifier:@"showLogin" sender:self];
+
 }
 
 

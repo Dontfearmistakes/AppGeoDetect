@@ -7,13 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Event.h"
 
 // The service type identifier
-extern NSString * const kServiceType;
+extern NSString *const kServiceType;
 // The notification string to be used for data receipts
 extern NSString *const DataReceivedNotification;
-// A flag to use programmatic APIs for the discovery phase
-extern BOOL const kProgrammaticDiscovery;
+
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
@@ -22,11 +22,11 @@ extern BOOL const kProgrammaticDiscovery;
 @property (readonly, strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 @property (readonly, strong, nonatomic) NSManagedObjectModel *managedObjectModel;
 @property (readonly, strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
-
+@property (strong, nonatomic) NSArray *dataReceivedFromIphone;
 
 
 - (void)saveContext;
 - (NSURL *)applicationDocumentsDirectory;
-- (void) insertEventInCoreDataWithFirstName:(NSString*)firstName LastName:(NSString*)lastname andInOrOut:(NSNumber*)inOrOut;
+
 
 @end

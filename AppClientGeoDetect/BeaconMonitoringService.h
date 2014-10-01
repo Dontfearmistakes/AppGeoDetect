@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "LoggedVC.h"
 
 @import CoreLocation;
 
@@ -21,6 +22,7 @@
                                onExit:(BOOL)exit;
 
 - (void)stopMonitoringAllRegions;
-@property (assign) BOOL isIBeaconConnected;
+@property (assign)             BOOL      isIBeaconConnected;
+@property (strong, nonatomic)  LoggedVC *loggedVC;
 
 @end

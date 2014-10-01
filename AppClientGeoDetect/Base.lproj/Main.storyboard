@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="ViX-46-Ovr">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="vXZ-lx-hvc">
     <dependencies>
         <deployment defaultVersion="1808" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
@@ -35,7 +35,6 @@
                                 </state>
                                 <connections>
                                     <action selector="clickOnDisconnectButton:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="doK-Nc-JHu"/>
-                                    <segue destination="XpG-qa-85R" kind="modal" id="Tku-A1-N3O"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="EnterRegion" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Peh-IX-xev">
@@ -50,6 +49,12 @@
                                 <color key="textColor" red="0.5" green="0.0" blue="0.5" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xEh-kT-rhT">
+                                <rect key="frame" x="27" y="257" width="286" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
@@ -58,6 +63,8 @@
                         <outlet property="determineRegionStateLabel" destination="4gl-Sg-ESJ" id="HUD-hv-AS1"/>
                         <outlet property="enterRegionLabel" destination="Peh-IX-xev" id="NEZ-dt-EJA"/>
                         <outlet property="firstNameLastNameLabel" destination="4UG-rV-8FC" id="Hg9-fH-ivH"/>
+                        <outlet property="fromNearToFarUILabel" destination="xEh-kT-rhT" id="vXz-IM-UcW"/>
+                        <segue destination="XpG-qa-85R" kind="modal" identifier="showLogin" animates="NO" id="qnp-RN-7Kw"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
@@ -123,25 +130,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VPB-uZ-GJB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1836" y="162"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="YOO-Bp-XfU">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="ViX-46-Ovr" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationItem key="navigationItem" id="JUu-D3-lYS"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="kho-8J-T6K">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="vXZ-lx-hvc" kind="relationship" relationship="rootViewController" id="3OL-aI-yKC"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="HMT-Dx-nre" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="829" y="157"/>
         </scene>
     </scenes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
