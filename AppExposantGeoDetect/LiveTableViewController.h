@@ -1,5 +1,5 @@
 //
-//  RootTableViewController.h
+//  LiveTableViewController.h
 //  AppExposantGeoDetect
 //
 //  Created by Maxime BERNARD on 29/09/2014.
@@ -8,12 +8,18 @@
 
 #import <UIKit/UIKit.h>
 
-@interface RootTableViewController : UITableViewController
+@interface LiveTableViewController : UIViewController <UITableViewDataSource,UITableViewDelegate>
+
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *clearAllBarButton;
 - (IBAction)clearAllBarButtonClick:(id)sender;
 
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *iBeaconConnectButton;
+@property (weak, nonatomic) IBOutlet UIButton *iBeaconConnectButton;
 - (IBAction)iBeaconConnectButtonClick:(id)sender;
+
+
+
+
 
 @end

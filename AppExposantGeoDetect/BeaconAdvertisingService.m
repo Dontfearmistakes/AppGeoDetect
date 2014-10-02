@@ -119,7 +119,6 @@ NSString * const kBeaconIdentifier = @"com.razeware.waitlist";
         } else {
             NSLog(@"Advertising iBeacon!");
             self.isAdvertising = YES;
-            self.rootTblVC.iBeaconConnectButton.enabled = YES;
 
             
             ////////////////////////////////////////////////////////////////////////////////

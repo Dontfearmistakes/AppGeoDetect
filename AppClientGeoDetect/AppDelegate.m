@@ -39,6 +39,15 @@ NSString *const PeerConnectionAcceptedNotification = @"com.razeware.apps.CardSha
         [[NSUserDefaults standardUserDefaults] synchronize];
     }
     
+    
+    // Preloads keyboard so there's no lag on initial keyboard appearance.
+    UITextField *lagFreeField = [[UITextField alloc] init];
+    lagFreeField.hidden = YES;
+    [self.window addSubview:lagFreeField];
+    [lagFreeField becomeFirstResponder];
+    [lagFreeField resignFirstResponder];
+    [lagFreeField removeFromSuperview];
+    
     ////////////////////////////////
     //MULTIPEER CONNECTIVITY////////
     ////////////////////////////////

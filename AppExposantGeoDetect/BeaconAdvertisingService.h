@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "MPConnectivityHandler.h"
-#import "RootTableViewController.h"
+#import "LiveTableViewController.h"
 
 @import CoreLocation;
 
@@ -16,7 +16,7 @@
 
 @property (assign) BOOL isAdvertising;
 @property (strong) MPConnectivityHandler *mpConnectHandler;
-@property (strong, nonatomic) RootTableViewController* rootTblVC;
+@property (strong, nonatomic) LiveTableViewController* liveTblVC;
 
 + (BeaconAdvertisingService *)sharedInstance;
 

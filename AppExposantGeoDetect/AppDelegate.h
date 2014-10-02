@@ -27,6 +27,6 @@ extern NSString *const DataReceivedNotification;
 
 - (void)saveContext;
 - (NSURL *)applicationDocumentsDirectory;
-
+-(void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated;
 
 @end

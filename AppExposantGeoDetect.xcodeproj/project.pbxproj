@@ -8,11 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		380219D319D4624F00C6415C /* MPConnectivityHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 380219D219D4624F00C6415C /* MPConnectivityHandler.m */; };
-		380219D619D99E1600C6415C /* RootTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 380219D519D99E1600C6415C /* RootTableViewController.m */; };
+		380219D619D99E1600C6415C /* LiveTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 380219D519D99E1600C6415C /* LiveTableViewController.m */; };
+		380219DC19DC5B2500C6415C /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 380219DB19DC5B2500C6415C /* RootViewController.m */; };
 		380D47BA19CB1B2000E49394 /* Event.m in Sources */ = {isa = PBXBuildFile; fileRef = 380D47B919CB1B2000E49394 /* Event.m */; };
 		380D47BD19CB1B2000E49394 /* Client.m in Sources */ = {isa = PBXBuildFile; fileRef = 380D47BC19CB1B2000E49394 /* Client.m */; };
 		383D4B7819C9EEBE0046DD2F /* LoginVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 383D4B7719C9EEBE0046DD2F /* LoginVC.m */; };
 		383D4B7B19C9EF1B0046DD2F /* LoggedVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 383D4B7A19C9EF1B0046DD2F /* LoggedVC.m */; };
+		387ADD2819DD8BAA007084AB /* LiveVCCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 387ADD2719DD8BAA007084AB /* LiveVCCell.m */; };
 		3884B22219CC684600E8CBE2 /* BeaconAdvertisingService.m in Sources */ = {isa = PBXBuildFile; fileRef = 3884B22119CC684600E8CBE2 /* BeaconAdvertisingService.m */; };
 		38A5CB8819D02A5700427E78 /* BeaconMonitoringService.m in Sources */ = {isa = PBXBuildFile; fileRef = 38A5CB8719D02A5700427E78 /* BeaconMonitoringService.m */; };
 		38AADCBE19C9D487000ACC6E /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 38AADCBD19C9D487000ACC6E /* libPods.a */; };
@@ -26,7 +28,6 @@
 		38BEA18619C9BF5500A560C3 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 38BEA18519C9BF5500A560C3 /* AppDelegate.m */; };
 		38BEA18919C9BF5500A560C3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 38BEA18719C9BF5500A560C3 /* Main.storyboard */; };
 		38BEA18C19C9BF5500A560C3 /* AppExposantGeoDetect.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 38BEA18A19C9BF5500A560C3 /* AppExposantGeoDetect.xcdatamodeld */; };
-		38BEA18F19C9BF5500A560C3 /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38BEA18E19C9BF5500A560C3 /* MasterViewController.m */; };
 		38BEA19419C9BF5500A560C3 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 38BEA19319C9BF5500A560C3 /* Images.xcassets */; };
 		38BEA19B19C9BF5500A560C3 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38BEA19A19C9BF5500A560C3 /* XCTest.framework */; };
 		38BEA19C19C9BF5500A560C3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38BEA17319C9BF5500A560C3 /* Foundation.framework */; };
@@ -71,8 +72,10 @@
 		1770ED71EDCE489DB2D8CF29 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		380219D119D4624F00C6415C /* MPConnectivityHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MPConnectivityHandler.h; path = ../MPConnectivityHandler.h; sourceTree = "<group>"; };
 		380219D219D4624F00C6415C /* MPConnectivityHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MPConnectivityHandler.m; path = ../MPConnectivityHandler.m; sourceTree = "<group>"; };
-		380219D419D99E1600C6415C /* RootTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootTableViewController.h; sourceTree = "<group>"; };
-		380219D519D99E1600C6415C /* RootTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootTableViewController.m; sourceTree = "<group>"; };
+		380219D419D99E1600C6415C /* LiveTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LiveTableViewController.h; sourceTree = "<group>"; };
+		380219D519D99E1600C6415C /* LiveTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LiveTableViewController.m; sourceTree = "<group>"; };
+		380219DA19DC5B2500C6415C /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
+		380219DB19DC5B2500C6415C /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
 		380D47B819CB1B2000E49394 /* Event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Event.h; sourceTree = "<group>"; };
 		380D47B919CB1B2000E49394 /* Event.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Event.m; sourceTree = "<group>"; };
 		380D47BB19CB1B2000E49394 /* Client.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Client.h; sourceTree = "<group>"; };
@@ -81,6 +84,8 @@
 		383D4B7719C9EEBE0046DD2F /* LoginVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginVC.m; sourceTree = "<group>"; };
 		383D4B7919C9EF1B0046DD2F /* LoggedVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoggedVC.h; sourceTree = "<group>"; };
 		383D4B7A19C9EF1B0046DD2F /* LoggedVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoggedVC.m; sourceTree = "<group>"; };
+		387ADD2619DD8BAA007084AB /* LiveVCCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LiveVCCell.h; sourceTree = "<group>"; };
+		387ADD2719DD8BAA007084AB /* LiveVCCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LiveVCCell.m; sourceTree = "<group>"; };
 		3884B22019CC684600E8CBE2 /* BeaconAdvertisingService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BeaconAdvertisingService.h; sourceTree = "<group>"; };
 		3884B22119CC684600E8CBE2 /* BeaconAdvertisingService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BeaconAdvertisingService.m; sourceTree = "<group>"; };
 		38A5CB8619D02A5700427E78 /* BeaconMonitoringService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BeaconMonitoringService.h; sourceTree = "<group>"; };
@@ -100,9 +105,7 @@
 		38BEA18519C9BF5500A560C3 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		38BEA18819C9BF5500A560C3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		38BEA18B19C9BF5500A560C3 /* AppExposantGeoDetect.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = AppExposantGeoDetect.xcdatamodel; sourceTree = "<group>"; };
-		38BEA18D19C9BF5500A560C3 /* MasterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MasterViewController.h; sourceTree = "<group>"; };
-		38BEA18E19C9BF5500A560C3 /* MasterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MasterViewController.m; sourceTree = "<group>"; };
-		38BEA19319C9BF5500A560C3 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		38BEA19319C9BF5500A560C3 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = AppExposantGeoDetect/Images.xcassets; sourceTree = "<group>"; };
 		38BEA19919C9BF5500A560C3 /* AppExposantGeoDetectTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AppExposantGeoDetectTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		38BEA19A19C9BF5500A560C3 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		38BEA1A319C9BF5500A560C3 /* AppExposantGeoDetectTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "AppExposantGeoDetectTests-Info.plist"; sourceTree = "<group>"; };
@@ -172,6 +175,37 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		387ADD2919DD8BB4007084AB /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				387ADD2619DD8BAA007084AB /* LiveVCCell.h */,
+				387ADD2719DD8BAA007084AB /* LiveVCCell.m */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		387ADD2A19DD8BC5007084AB /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				380D47B819CB1B2000E49394 /* Event.h */,
+				380D47B919CB1B2000E49394 /* Event.m */,
+				380D47BB19CB1B2000E49394 /* Client.h */,
+				380D47BC19CB1B2000E49394 /* Client.m */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		387ADD2B19DD8BD9007084AB /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				380219DA19DC5B2500C6415C /* RootViewController.h */,
+				380219DB19DC5B2500C6415C /* RootViewController.m */,
+				380219D419D99E1600C6415C /* LiveTableViewController.h */,
+				380219D519D99E1600C6415C /* LiveTableViewController.m */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
 		3884B22319CC684D00E8CBE2 /* iBeacon */ = {
 			isa = PBXGroup;
 			children = (
@@ -186,6 +220,8 @@
 		38BEA16719C9BF5400A560C3 = {
 			isa = PBXGroup;
 			children = (
+				38BEA19319C9BF5500A560C3 /* Images.xcassets */,
+				38BEA18A19C9BF5500A560C3 /* AppExposantGeoDetect.xcdatamodeld */,
 				38BEA17B19C9BF5500A560C3 /* AppExposantGeoDetect - Ipad */,
 				38BEA1A119C9BF5500A560C3 /* AppExposantGeoDetectTests */,
 				38BEA1B919C9BF8600A560C3 /* AppClientGeoDetect - Iphone */,
@@ -228,16 +264,9 @@
 				38BEA18419C9BF5500A560C3 /* AppDelegate.h */,
 				38BEA18519C9BF5500A560C3 /* AppDelegate.m */,
 				38BEA18719C9BF5500A560C3 /* Main.storyboard */,
-				380219D419D99E1600C6415C /* RootTableViewController.h */,
-				380219D519D99E1600C6415C /* RootTableViewController.m */,
-				38BEA18D19C9BF5500A560C3 /* MasterViewController.h */,
-				38BEA18E19C9BF5500A560C3 /* MasterViewController.m */,
-				38BEA19319C9BF5500A560C3 /* Images.xcassets */,
-				38BEA18A19C9BF5500A560C3 /* AppExposantGeoDetect.xcdatamodeld */,
-				380D47B819CB1B2000E49394 /* Event.h */,
-				380D47B919CB1B2000E49394 /* Event.m */,
-				380D47BB19CB1B2000E49394 /* Client.h */,
-				380D47BC19CB1B2000E49394 /* Client.m */,
+				387ADD2B19DD8BD9007084AB /* Controllers */,
+				387ADD2919DD8BB4007084AB /* Views */,
+				387ADD2A19DD8BC5007084AB /* Model */,
 				38BEA17C19C9BF5500A560C3 /* Supporting Files */,
 			);
 			name = "AppExposantGeoDetect - Ipad";
@@ -524,12 +553,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				38BEA18F19C9BF5500A560C3 /* MasterViewController.m in Sources */,
 				38BEA18619C9BF5500A560C3 /* AppDelegate.m in Sources */,
 				3884B22219CC684600E8CBE2 /* BeaconAdvertisingService.m in Sources */,
-				380219D619D99E1600C6415C /* RootTableViewController.m in Sources */,
+				380219D619D99E1600C6415C /* LiveTableViewController.m in Sources */,
 				38BEA18219C9BF5500A560C3 /* main.m in Sources */,
 				380219D319D4624F00C6415C /* MPConnectivityHandler.m in Sources */,
+				380219DC19DC5B2500C6415C /* RootViewController.m in Sources */,
+				387ADD2819DD8BAA007084AB /* LiveVCCell.m in Sources */,
 				38BEA18C19C9BF5500A560C3 /* AppExposantGeoDetect.xcdatamodeld in Sources */,
 				380D47BA19CB1B2000E49394 /* Event.m in Sources */,
 				380D47BD19CB1B2000E49394 /* Client.m in Sources */,
@@ -920,7 +950,8 @@
 				38BEA18B19C9BF5500A560C3 /* AppExposantGeoDetect.xcdatamodel */,
 			);
 			currentVersion = 38BEA18B19C9BF5500A560C3 /* AppExposantGeoDetect.xcdatamodel */;
-			path = AppExposantGeoDetect.xcdatamodeld;
+			name = AppExposantGeoDetect.xcdatamodeld;
+			path = AppExposantGeoDetect/AppExposantGeoDetect.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

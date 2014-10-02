@@ -8,13 +8,13 @@
 
 #import "AppDelegate.h"
 #import "BeaconAdvertisingService.h"
-#import "MasterViewController.h"
+#import "RootViewController.h"
 #import "Event.h"
 #import "Client.h"
 
 NSString *const letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
-@interface AppDelegate ()<UIAlertViewDelegate>
+@interface AppDelegate ()<UIAlertViewDelegate, UINavigationControllerDelegate>
 
 
 
@@ -26,6 +26,8 @@ NSString *const letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ
 @synthesize managedObjectModel = _managedObjectModel;
 @synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
 
+
+
 -(void)applicationDidEnterBackground:(UIApplication *)application
 {
     NSError* error0 = nil;
@@ -34,26 +36,27 @@ NSString *const letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-
-    #warning temporary timer, erase this line later
-//    [NSTimer scheduledTimerWithTimeInterval:3.0f
-//                                     target:self
-//                                   selector:@selector(timerSimulator)
-//                                   userInfo:nil
-//                                    repeats:YES];
+    UINavigationController * navVC = (UINavigationController*)self.window.rootViewController;
+    
+    navVC.delegate = self;
     
     /////////////////////////////////
     // Start iBeacon advertising ////
     /////////////////////////////////
     NSUUID *plasticOmiumUUID = [[NSUUID alloc] initWithUUIDString:@"EC6F3659-A8B9-4434-904C-A76F788DAC43"];
     [[BeaconAdvertisingService sharedInstance] startAdvertisingUUID:plasticOmiumUUID major:0 minor:0];
-
     
     return YES;
 }
     
 
-
+//Smooth show/hide navBar
+-(void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated
+{
+    BOOL isSearchVc = [viewController isKindOfClass:RootViewController.class];
+    
+    [viewController.navigationController setNavigationBarHidden:isSearchVc animated:animated];
+}
 
 
 

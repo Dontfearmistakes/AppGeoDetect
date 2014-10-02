@@ -1,18 +1,19 @@
 //
-//  RootTableViewController.m
+//  LiveTableViewController.m
 //  AppExposantGeoDetect
 //
 //  Created by Maxime BERNARD on 29/09/2014.
 //  Copyright (c) 2014 Wassa. All rights reserved.
 //
 
-#import "RootTableViewController.h"
+#import "LiveTableViewController.h"
 #import "AppDelegate.h"
 #import "Event.h"
 #import "Client.h"
 #import "BeaconAdvertisingService.h"
+#import "LiveVCCell.h"
 
-@interface RootTableViewController ()
+@interface LiveTableViewController ()
 
 @property (strong, nonatomic) NSMutableArray         * events;
 @property (strong, nonatomic) NSManagedObjectContext * managedObjectContext;
@@ -20,24 +21,23 @@
 
 @end
 
-@implementation RootTableViewController
+@implementation LiveTableViewController
 
 ///////////////////
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [[self navigationController] setNavigationBarHidden:NO animated:YES];
     
-    // Enable iBeacon switch button only when iBeacon starts advertising
-    self.iBeaconConnectButton.enabled = NO;
-    [BeaconAdvertisingService sharedInstance].rootTblVC = self;
-    
+    [BeaconAdvertisingService sharedInstance].liveTblVC = self;
+    [UIApplication sharedApplication].idleTimerDisabled = YES;
+
 }
 
 
 ////////////////////////////////////
 -(void)viewWillAppear:(BOOL)animated
 {
-    [super viewWillAppear:animated];
     
     AppDelegate *appDelegate  = (AppDelegate *)[[UIApplication sharedApplication]delegate];
     self.managedObjectContext = [appDelegate managedObjectContext];
@@ -124,15 +124,8 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
-    [self configureCell:cell atIndexPath:indexPath];
-    return cell;
-}
-
-
-
-- (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
-{
+    LiveVCCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
+    
     Event *event = (Event*)[self.events objectAtIndex:indexPath.row];
     
     NSString *inOrOutString;
@@ -149,9 +142,18 @@
                                                         dateStyle: NSDateFormatterNoStyle
                                                         timeStyle: NSDateFormatterMediumStyle];
     
-    cell.textLabel.text = [NSString stringWithFormat:@"%@ %@ just %@ the area at %@", event.client.firstName, event.client.lastName, inOrOutString, timePart];
     
+    //cell.textLabel.text = [NSString stringWithFormat:@"%@ %@ just %@ the area at %@", event.client.firstName, event.client.lastName, inOrOutString, timePart];
+    cell.nameLabel.text = event.client.firstName;
+    cell.hourLabel.text = timePart;
+    cell.inOutLabel.text = inOrOutString;
+    
+    return cell;
 }
+
+
+
+
 
 
 //////////////////////////////////////////////////////////////////////////////////////////
@@ -192,13 +194,13 @@
     if ([[BeaconAdvertisingService sharedInstance] isAdvertising])
     {
         [[BeaconAdvertisingService sharedInstance] stopAdvertising];
-        [self.iBeaconConnectButton setTitle:@"Start iBeacon Advertising"];
+        [self.iBeaconConnectButton setTitle:@"Start iBeacon Advertising" forState:UIControlStateNormal];
     }
     else
     {
         NSUUID *plasticOmiumUUID = [[NSUUID alloc] initWithUUIDString:@"EC6F3659-A8B9-4434-904C-A76F788DAC43"];
         [[BeaconAdvertisingService sharedInstance] startAdvertisingUUID:plasticOmiumUUID major:0 minor:0];
-        [self.iBeaconConnectButton setTitle:@"Stop iBeacon Advertising"];
+        [self.iBeaconConnectButton setTitle:@"Stop iBeacon Advertising" forState:UIControlStateNormal];
     }
     
 }
