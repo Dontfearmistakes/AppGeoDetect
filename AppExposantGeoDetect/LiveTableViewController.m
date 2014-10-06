@@ -18,7 +18,6 @@
 @property (strong, nonatomic) NSMutableArray         * events;
 @property (strong, nonatomic) NSManagedObjectContext * managedObjectContext;
 
-
 @end
 
 @implementation LiveTableViewController
@@ -42,61 +41,20 @@
     AppDelegate *appDelegate  = (AppDelegate *)[[UIApplication sharedApplication]delegate];
     self.managedObjectContext = [appDelegate managedObjectContext];
     
-    [self fetchEvents];
+    //On fetch et reload le TblView...
     
+    //1) Au lancement de la vue
+    [self fetchDataAndReloadTbleView];
+    
+    //2) Dès qu'une update intervient
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(addRow:)
+                                             selector:@selector(fetchDataAndReloadTbleViewWithEvent:)
                                                  name:@"iPad received data"
                                                object:nil];
-    
-    
 }
 
 
-///////////////////////////////////////////
--(void)addRow:(NSNotification*)notification
-{
-    NSArray *nameArray = notification.userInfo[@"info"];
-    
-    if(nameArray)
-    {
-        Event  * event1  = nil;
-        Client * client1 = nil;
-        
-        event1 = [NSEntityDescription insertNewObjectForEntityForName:@"Event"
-                                               inManagedObjectContext:self.managedObjectContext];
-        
-        client1 = [NSEntityDescription insertNewObjectForEntityForName:@"Client"
-                                                inManagedObjectContext:self.managedObjectContext];
-        client1.firstName = (NSString *)[nameArray firstObject];
-        client1.lastName  = (NSString *)nameArray[1];
-        
-        event1.inOrOut = (NSNumber *)nameArray[2];
-        event1.timestamp = [NSDate date];
-        event1.client = client1;
-        
-        NSError* error0 = nil;
-        if (![self.managedObjectContext save:&error0])
-        {
-            NSLog(@"Can't Save! %@ \r %@", error0, [error0 localizedDescription]);
-        }
-        
-        //Update TableView DataSource
-        [self.events insertObject:event1 atIndex:0];
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.tableView beginUpdates];
-            [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]]
-                                  withRowAnimation:UITableViewRowAnimationFade];
-            [self.tableView endUpdates];
-        });
-    }
-}
-
-
-
-
--(void)fetchEvents
+-(void)fetchDataAndReloadTbleView
 {
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Event"];
     request.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:NO]];
@@ -104,9 +62,64 @@
     NSError *error = nil;
     self.events = [[self.managedObjectContext executeFetchRequest:request error:&error] mutableCopy];
     
-    [self.tableView reloadData];
+    
+    if(self.events)
+    {
+        
+        dispatch_async(dispatch_get_main_queue(),
+                       ^{
+                           //Update TableView
+                           [self.tableView reloadData];
+                       });
+    }
     
 }
+
+-(void)fetchDataAndReloadTbleViewWithEvent:(NSNotification*) notif
+{
+    Event *incomingEvent = notif.userInfo[@"event"];
+    
+    if(incomingEvent)
+            {
+        
+                dispatch_async(dispatch_get_main_queue(),
+                               ^{
+                                   //Update TableView DataSource
+                                   [self.events insertObject:incomingEvent atIndex:0];
+                                   //Update TableView
+                                   [self.tableView beginUpdates];
+                                   [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]]
+                                                         withRowAnimation:UITableViewRowAnimationFade];
+                                   [self.tableView endUpdates];
+                               });
+            }
+
+    
+//    [self.events addObject:notif.userInfo[@"event"]];
+//    
+//    [self.tableView reloadData];
+}
+
+
+//-(void)addRow:(NSNotification*)notification
+//{
+//    
+//    NSArray *newEventFromNearbyIphoneArray = notification.userInfo[@"dataForLiveTbleVC"];
+//    
+//    if(newEventFromNearbyIphoneArray)
+//    {
+//        //Update TableView DataSource
+//        [self.events insertObject:newEventFromNearbyIphoneArray atIndex:0];
+//        
+//        dispatch_async(dispatch_get_main_queue(),
+//                       ^{
+//                           [self.tableView beginUpdates];
+//                           [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]]
+//                                                 withRowAnimation:UITableViewRowAnimationFade];
+//                           [self.tableView endUpdates];
+//                       });
+//    }
+//}
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -144,7 +157,7 @@
     
     
     //cell.textLabel.text = [NSString stringWithFormat:@"%@ %@ just %@ the area at %@", event.client.firstName, event.client.lastName, inOrOutString, timePart];
-    cell.nameLabel.text = event.client.firstName;
+    cell.nameLabel.text = event.client.lastName;
     cell.hourLabel.text = timePart;
     cell.inOutLabel.text = inOrOutString;
     
@@ -194,13 +207,13 @@
     if ([[BeaconAdvertisingService sharedInstance] isAdvertising])
     {
         [[BeaconAdvertisingService sharedInstance] stopAdvertising];
-        [self.iBeaconConnectButton setTitle:@"Start iBeacon Advertising" forState:UIControlStateNormal];
+        [self.iBeaconConnectButton setTitle:@"Démarrer iBeacon" forState:UIControlStateNormal];
     }
     else
     {
         NSUUID *plasticOmiumUUID = [[NSUUID alloc] initWithUUIDString:@"EC6F3659-A8B9-4434-904C-A76F788DAC43"];
         [[BeaconAdvertisingService sharedInstance] startAdvertisingUUID:plasticOmiumUUID major:0 minor:0];
-        [self.iBeaconConnectButton setTitle:@"Stop iBeacon Advertising" forState:UIControlStateNormal];
+        [self.iBeaconConnectButton setTitle:@"Stopper iBeacon" forState:UIControlStateNormal];
     }
     
 }

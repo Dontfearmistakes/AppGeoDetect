@@ -4,11 +4,15 @@
 //
 //  Created by Maxime BERNARD on 19/09/2014.
 //  Copyright (c) 2014 Wassa. All rights reserved.
-//
+//nect
+
 
 #import "BeaconAdvertisingService.h"
 #import "MPConnectivityHandler.h"
 #import "MasterViewController.h"
+
+#warning to be removed
+#import "AppDelegate.h"
 
 @import CoreBluetooth;
 
@@ -50,6 +54,12 @@ NSString * const kBeaconIdentifier = @"com.razeware.waitlist";
     {
         _peripheralManager = [[CBPeripheralManager alloc] initWithDelegate:self queue:dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)];
         self.needsStartAdvertising = NO;
+        
+        self.mpConnectHandler = [[MPConnectivityHandler alloc]init];
+
+        #warning to be removed
+        AppDelegate *appD   = [[UIApplication sharedApplication] delegate];
+        appD.mpConnectHandler = self.mpConnectHandler;
     }
     
     return self;
@@ -124,8 +134,10 @@ NSString * const kBeaconIdentifier = @"com.razeware.waitlist";
             ////////////////////////////////////////////////////////////////////////////////
             // ET MAINTENANT QUE L'iBEACON A COMMENCE A EMETTRE --> ON LANCE MP CONNECTIVITY
             ////////////////////////////////////////////////////////////////////////////////
-            self.mpConnectHandler = [[MPConnectivityHandler alloc]init];
             [self.mpConnectHandler setUpPeerSessionAndStartAdvertising];
+            
+
+            
         }
     });
 }

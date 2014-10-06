@@ -26,9 +26,10 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    
-    self.firstNameTxtfield.delegate = self;
     self.lastNameTxtfield.delegate = self;
+    self.emailTxtfield.delegate = self;
+    self.societeTxtfield.delegate = self;
+    self.titreTextField.delegate = self;
     
     
     //Dismiss keyboard if touch outside of Textfield
@@ -43,14 +44,18 @@
 -(void) didTapOnTableView:(id) sender
 {
     
-    if ([self.firstNameTxtfield isFirstResponder])
-        [self.firstNameTxtfield resignFirstResponder];
-    
     if ([self.lastNameTxtfield isFirstResponder])
         [self.lastNameTxtfield resignFirstResponder];
+    if ([self.emailTxtfield isFirstResponder])
+        [self.emailTxtfield resignFirstResponder];
+    if ([self.societeTxtfield isFirstResponder])
+        [self.societeTxtfield resignFirstResponder];
+    if ([self.titreTextField isFirstResponder])
+        [self.titreTextField resignFirstResponder];
 }
 
 - (void)didReceiveMemoryWarning
+
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -81,13 +86,13 @@
 - (IBAction)clickOnRegisterButton:(UIButton *)sender
 {
     // SI AUCUN CHAMPS N'EST LAISSE VIDE PAR LE USER
-    if (![self.firstNameTxtfield.text isEqualToString:@""]
-        &&
-        ![self.lastNameTxtfield.text  isEqualToString:@""])
+    if (![self.lastNameTxtfield.text  isEqualToString:@""])
     {
         // 1 : REMPLIS LE KEYCHAIN
-        [[GSKeychain systemKeychain] setSecret:self.firstNameTxtfield.text forKey:@"firstName"];
         [[GSKeychain systemKeychain] setSecret:self.lastNameTxtfield.text  forKey:@"lastName"];
+        [[GSKeychain systemKeychain] setSecret:self.emailTxtfield.text  forKey:@"email"];
+        [[GSKeychain systemKeychain] setSecret:self.titreTextField.text  forKey:@"titre"];
+        [[GSKeychain systemKeychain] setSecret:self.societeTxtfield.text  forKey:@"societe"];
         
         
         // 2 : CONNECTION AU iBEACON

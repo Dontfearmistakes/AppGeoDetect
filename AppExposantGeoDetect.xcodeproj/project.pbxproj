@@ -48,6 +48,8 @@
 		38BEA1D419C9BF8600A560C3 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38BEA17719C9BF5500A560C3 /* UIKit.framework */; };
 		38BEA1DC19C9BF8600A560C3 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 38BEA1DA19C9BF8600A560C3 /* InfoPlist.strings */; };
 		38BEA1DE19C9BF8600A560C3 /* AppClientGeoDetectTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 38BEA1DD19C9BF8600A560C3 /* AppClientGeoDetectTests.m */; };
+		38E7A2AD19DE8D8900DBFA1D /* ProspectChoiceTableVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 38E7A2AC19DE8D8900DBFA1D /* ProspectChoiceTableVC.m */; };
+		38E7A2B019DE933000DBFA1D /* ProspectDisplayVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 38E7A2AF19DE933000DBFA1D /* ProspectDisplayVC.m */; };
 		5B8AA2647D0A475295032267 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EBA3AE44690E436EBE9AC489 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -124,6 +126,10 @@
 		38BEA1D919C9BF8600A560C3 /* AppClientGeoDetectTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "AppClientGeoDetectTests-Info.plist"; sourceTree = "<group>"; };
 		38BEA1DB19C9BF8600A560C3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		38BEA1DD19C9BF8600A560C3 /* AppClientGeoDetectTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppClientGeoDetectTests.m; sourceTree = "<group>"; };
+		38E7A2AB19DE8D8900DBFA1D /* ProspectChoiceTableVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProspectChoiceTableVC.h; sourceTree = "<group>"; };
+		38E7A2AC19DE8D8900DBFA1D /* ProspectChoiceTableVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProspectChoiceTableVC.m; sourceTree = "<group>"; };
+		38E7A2AE19DE933000DBFA1D /* ProspectDisplayVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProspectDisplayVC.h; sourceTree = "<group>"; };
+		38E7A2AF19DE933000DBFA1D /* ProspectDisplayVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProspectDisplayVC.m; sourceTree = "<group>"; };
 		EBA3AE44690E436EBE9AC489 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -198,6 +204,10 @@
 		387ADD2B19DD8BD9007084AB /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				38E7A2AE19DE933000DBFA1D /* ProspectDisplayVC.h */,
+				38E7A2AF19DE933000DBFA1D /* ProspectDisplayVC.m */,
+				38E7A2AB19DE8D8900DBFA1D /* ProspectChoiceTableVC.h */,
+				38E7A2AC19DE8D8900DBFA1D /* ProspectChoiceTableVC.m */,
 				380219DA19DC5B2500C6415C /* RootViewController.h */,
 				380219DB19DC5B2500C6415C /* RootViewController.m */,
 				380219D419D99E1600C6415C /* LiveTableViewController.h */,
@@ -554,12 +564,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				38BEA18619C9BF5500A560C3 /* AppDelegate.m in Sources */,
+				38E7A2B019DE933000DBFA1D /* ProspectDisplayVC.m in Sources */,
 				3884B22219CC684600E8CBE2 /* BeaconAdvertisingService.m in Sources */,
 				380219D619D99E1600C6415C /* LiveTableViewController.m in Sources */,
 				38BEA18219C9BF5500A560C3 /* main.m in Sources */,
 				380219D319D4624F00C6415C /* MPConnectivityHandler.m in Sources */,
 				380219DC19DC5B2500C6415C /* RootViewController.m in Sources */,
 				387ADD2819DD8BAA007084AB /* LiveVCCell.m in Sources */,
+				38E7A2AD19DE8D8900DBFA1D /* ProspectChoiceTableVC.m in Sources */,
 				38BEA18C19C9BF5500A560C3 /* AppExposantGeoDetect.xcdatamodeld in Sources */,
 				380D47BA19CB1B2000E49394 /* Event.m in Sources */,
 				380D47BD19CB1B2000E49394 /* Client.m in Sources */,

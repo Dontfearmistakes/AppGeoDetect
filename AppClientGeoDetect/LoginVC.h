@@ -10,8 +10,10 @@
 
 @interface LoginVC : UIViewController <UITextFieldDelegate>
 
-@property (weak, nonatomic) IBOutlet UITextField *firstNameTxtfield;
 @property (weak, nonatomic) IBOutlet UITextField *lastNameTxtfield;
+@property (weak, nonatomic) IBOutlet UITextField *emailTxtfield;
+@property (weak, nonatomic) IBOutlet UITextField *societeTxtfield;
+@property (weak, nonatomic) IBOutlet UITextField *titreTextField;
 
 
 

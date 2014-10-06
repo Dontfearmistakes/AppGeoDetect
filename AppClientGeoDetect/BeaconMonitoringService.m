@@ -153,11 +153,13 @@ NSString * const kBeaconIdentifier = @"com.razeware.waitlist";
                                                   otherButtonTitles:nil];
             [alert show];
             
-            NSArray *firstNameLastNameArray = [NSArray arrayWithObjects:[[GSKeychain systemKeychain] secretForKey:@"firstName"],
-                                               [[GSKeychain systemKeychain] secretForKey:@"lastName"],
+            NSArray *dataToSendWhenLeaveArray = [NSArray arrayWithObjects:[[GSKeychain systemKeychain] secretForKey:@"lastName"],
+                                               [[GSKeychain systemKeychain] secretForKey:@"email"],
+                                               [[GSKeychain systemKeychain] secretForKey:@"societe"],
+                                               [[GSKeychain systemKeychain] secretForKey:@"titre"],
                                                @0,
                                                nil];
-            NSData      *toSend = [NSKeyedArchiver archivedDataWithRootObject:firstNameLastNameArray];
+            NSData      *toSend = [NSKeyedArchiver archivedDataWithRootObject:dataToSendWhenLeaveArray];
             AppDelegate *appD   = [[UIApplication sharedApplication] delegate];
             [appD sendMPMessage:toSend];
             
@@ -238,17 +240,19 @@ NSString * const kBeaconIdentifier = @"com.razeware.waitlist";
         ////////////////////////////////////////////
         // IN iBEACON RANGE --> MPCONNECTIVITY /////
         ////////////////////////////////////////////
-        NSArray *firstNameLastNameArray = [NSArray arrayWithObjects:[[GSKeychain systemKeychain] secretForKey:@"firstName"],
-                                                                    [[GSKeychain systemKeychain] secretForKey:@"lastName"],
+        NSArray *dataToSendWhenEnterArray = [NSArray arrayWithObjects:[[GSKeychain systemKeychain] secretForKey:@"lastName"],
+                                                                    [[GSKeychain systemKeychain] secretForKey:@"email"],
+                                                                    [[GSKeychain systemKeychain] secretForKey:@"societe"],
+                                                                    [[GSKeychain systemKeychain] secretForKey:@"titre"],
                                                                     @1,
                                                                     nil];
         //4) Envoi notif d'entrée à l'iPAD avec la data
-        if ([[GSKeychain systemKeychain]secretForKey:@"firstName"])
+        if ([[GSKeychain systemKeychain]secretForKey:@"lastName"])
             // Check if KeyChain not empty car didChangeAuthorizationStatus et donc startMonitoringBeaconWithUUID (see below)
             // est potentiellement appelée au lancement de l'app avant que le user ne register et on ne veut pas envoyer un message
             // à l'iPad tant que le Keychain est vide
         {
-            NSData      *toSend = [NSKeyedArchiver archivedDataWithRootObject:firstNameLastNameArray];
+            NSData      *toSend = [NSKeyedArchiver archivedDataWithRootObject:dataToSendWhenEnterArray];
             AppDelegate *appD   = [[UIApplication sharedApplication] delegate];
                         [appD sendMPMessage:toSend];
         }

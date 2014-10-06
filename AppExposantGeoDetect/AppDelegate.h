@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "Event.h"
+#import "MPConnectivityHandler.h"
 
 // The service type identifier
 extern NSString *const kServiceType;
@@ -24,6 +25,8 @@ extern NSString *const DataReceivedNotification;
 @property (readonly, strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 @property (strong, nonatomic) NSArray *dataReceivedFromIphone;
 
+#warning to be removed
+@property (strong, nonatomic) MPConnectivityHandler *mpConnectHandler;
 
 - (void)saveContext;
 - (NSURL *)applicationDocumentsDirectory;

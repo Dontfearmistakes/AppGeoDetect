@@ -11,6 +11,9 @@
 #import "RootViewController.h"
 #import "Event.h"
 #import "Client.h"
+#import "MPConnectivityHandler.h"
+#warning to be removed
+#import <MultipeerConnectivity/MultipeerConnectivity.h>
 
 NSString *const letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
@@ -18,12 +21,16 @@ NSString *const letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ
 
 
 
+#warning to be removed
+@property (strong, nonatomic) MCSession *session;
+@property (strong, nonatomic) MCPeerID *peerId;
+
 @end
 
 @implementation AppDelegate
 
-@synthesize managedObjectContext = _managedObjectContext;
-@synthesize managedObjectModel = _managedObjectModel;
+@synthesize managedObjectContext       = _managedObjectContext;
+@synthesize managedObjectModel         = _managedObjectModel;
 @synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
 
 
@@ -40,15 +47,75 @@ NSString *const letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ
     
     navVC.delegate = self;
     
+    #warning temporary timer
+    
+    #warning to be removed
+    
     /////////////////////////////////
     // Start iBeacon advertising ////
     /////////////////////////////////
     NSUUID *plasticOmiumUUID = [[NSUUID alloc] initWithUUIDString:@"EC6F3659-A8B9-4434-904C-A76F788DAC43"];
     [[BeaconAdvertisingService sharedInstance] startAdvertisingUUID:plasticOmiumUUID major:0 minor:0];
     
+    
+    //1) Set up a peer
+    NSString *peerName = [[UIDevice currentDevice] name];
+    self.peerId = [[MCPeerID alloc] initWithDisplayName:peerName];
+    
+    
+    
+    
+    //2) Set up a session
+    self.session = [[MCSession alloc] initWithPeer:self.peerId
+                                  securityIdentity:nil
+                              encryptionPreference:MCEncryptionNone];
+    
+//    [NSTimer scheduledTimerWithTimeInterval:4.0
+//                                     target:self
+//                                   selector:@selector(receiveFakeData1)
+//                                   userInfo:nil
+//                                    repeats:YES];
+//    [NSTimer scheduledTimerWithTimeInterval:6.0
+//                                     target:self
+//                                   selector:@selector(receiveFakeData2)
+//                                   userInfo:nil
+//                                    repeats:YES];
+//    [NSTimer scheduledTimerWithTimeInterval:8.0
+//                                     target:self
+//                                   selector:@selector(receiveFakeData3)
+//                                   userInfo:nil
+//                                    repeats:YES];
+    
     return YES;
 }
+
+
+#warning to be removed
+-(void)receiveFakeData1
+{
     
+    NSArray * dataFromNearByIphoneArray = @[@"Bernard", @"max@gmail.com", @"Wassa", @"Dev iOS", @1];
+    NSData      *toSend = [NSKeyedArchiver archivedDataWithRootObject:dataFromNearByIphoneArray];
+    [self.mpConnectHandler session:self.session didReceiveData:toSend fromPeer:self.peerId];
+
+    
+
+}
+-(void)receiveFakeData2
+{
+    NSArray * dataFromNearByIphoneArray = @[@"Bernard", @"max@gmail.com", @"Wassa", @"Dev iOS", @0];
+    NSData      *toSend = [NSKeyedArchiver archivedDataWithRootObject:dataFromNearByIphoneArray];
+    [self.mpConnectHandler session:self.session didReceiveData:toSend fromPeer:self.peerId];
+
+}
+-(void)receiveFakeData3
+{
+    NSArray * dataFromNearByIphoneArray = @[@"Schaeffer", @"peter@gmail.com", @"Wassa", @"Dev iOS", @0];
+    NSData      *toSend = [NSKeyedArchiver archivedDataWithRootObject:dataFromNearByIphoneArray];
+    [self.mpConnectHandler session:self.session didReceiveData:toSend fromPeer:self.peerId];
+
+}
+
 
 //Smooth show/hide navBar
 -(void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated

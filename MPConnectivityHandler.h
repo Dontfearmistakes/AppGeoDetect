@@ -7,8 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <MultipeerConnectivity/MultipeerConnectivity.h>
 
 @interface MPConnectivityHandler : NSObject
 -(void)setUpPeerSessionAndStartAdvertising;
-
+- (void)session:(MCSession *)session didReceiveData:(NSData *)data fromPeer:(MCPeerID *)peerID;
 @end

@@ -7,9 +7,10 @@
 //
 
 #import "MPConnectivityHandler.h"
-#import <MultipeerConnectivity/MultipeerConnectivity.h>
-#import "AppDelegate.h"
 
+#import "AppDelegate.h"
+#import "Event.h"
+#import "Client.h"
 
 // Invitation handler definition
 typedef void(^InvitationHandler)(BOOL accept, MCSession *session);
@@ -24,6 +25,10 @@ NSString *const kServiceType = @"rw-cardshare";
 @property (strong, nonatomic) MCPeerID *peerId;
 @property (copy, nonatomic) InvitationHandler handler;
 
+@property (strong, nonatomic) NSManagedObjectContext * managedObjectContext;
+@property (strong, nonatomic) NSMutableArray         * clients;
+@property (assign)            BOOL                     hasAlreadyEntered;
+@property (strong, nonatomic) Client                 * alreadyEnteredClient;
 @end
 
 @implementation MPConnectivityHandler
@@ -139,15 +144,80 @@ NSString *const kServiceType = @"rw-cardshare";
     }
 }
 
+
+
 - (void)session:(MCSession *)session didReceiveData:(NSData *)data fromPeer:(MCPeerID *)peerID
 {
-
-    NSArray * firstNameLastNameInOrOutArray = [NSArray arrayWithArray: (NSArray*)[NSKeyedUnarchiver unarchiveObjectWithData:data]];
-    if (firstNameLastNameInOrOutArray[0] && firstNameLastNameInOrOutArray[1] && firstNameLastNameInOrOutArray[2])
+    // La data qui vient d'arriver
+    NSArray * dataFromNearByIphoneArray = [NSArray arrayWithArray: (NSArray*)[NSKeyedUnarchiver unarchiveObjectWithData:data]];
+    
+    // Les clients qui sont déjà dans Core Data (il faut les refectcher à chaque fois pour voir si on connait déjà cette personne ou non)
+                    AppDelegate *appDelegate  = (AppDelegate *)[[UIApplication sharedApplication]delegate];
+    self.managedObjectContext = [appDelegate managedObjectContext];
+   
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Client"];
+    NSError        *error   =  nil;
+               self.clients = [[self.managedObjectContext executeFetchRequest:request error:&error] mutableCopy];
+    
+    // 1) Dans tous les cas on crée un nouvel Event
+    Event  * event1  = nil;
+             event1  = [NSEntityDescription insertNewObjectForEntityForName:@"Event"
+                                           inManagedObjectContext:self.managedObjectContext];
+    
+    // Mais va-t-on ou non créer un nouveau Client ?
+    self.hasAlreadyEntered = NO;
+    for (Client* client in self.clients)
     {
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"iPad received data"
-                                                            object:self userInfo:@{@"info":firstNameLastNameInOrOutArray}];
+        if ([(NSString*)client.email isEqualToString:(NSString *) dataFromNearByIphoneArray[1]])
+        {
+            self.hasAlreadyEntered    = YES;
+            self.alreadyEnteredClient = client;
+        }
     }
+    
+    // S'il existait déjà en base, non
+    if (self.hasAlreadyEntered == YES)
+    {
+        event1.client    = self.alreadyEnteredClient;
+        event1.inOrOut   = (NSNumber *)dataFromNearByIphoneArray[4];
+        event1.timestamp = [NSDate date];
+    }
+    
+    //Sinon oui
+    else
+    {
+        Client * client1 = nil;
+        client1 = [NSEntityDescription insertNewObjectForEntityForName:@"Client"
+                                                inManagedObjectContext:self.managedObjectContext];
+        
+        client1.lastName = (NSString *)[dataFromNearByIphoneArray firstObject];
+        client1.email    = (NSString *) dataFromNearByIphoneArray [1];
+        client1.societe  = (NSString *) dataFromNearByIphoneArray [2];
+        client1.titre    = (NSString *) dataFromNearByIphoneArray [3];
+
+        event1.inOrOut   = (NSNumber *)dataFromNearByIphoneArray[4];
+        event1.timestamp = [NSDate date];
+        event1.client    = client1;
+    }
+    
+    
+    //On sauvegarde
+    NSError* error0 = nil;
+    if (![self.managedObjectContext save:&error0])
+    {
+        NSLog(@"Can't Save! %@ \r %@", error0, [error0 localizedDescription]);
+    }
+    
+    
+//    NSArray * dataToSendToLiveTblVC = @[[dataFromNearByIphoneArray firstObject],
+//                                        event1.timestamp,
+//                                        event1.inOrOut
+//                                        ];
+    
+    // On notifie les ViewControllers pour qu'ils puissent s'updater
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"iPad received data"
+                                                        object:self
+                                                      userInfo:@{@"event":event1}];
 }
 
 

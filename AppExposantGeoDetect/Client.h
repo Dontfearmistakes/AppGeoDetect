@@ -13,8 +13,11 @@
 
 @interface Client : NSManagedObject
 
-@property (nonatomic, retain) NSString * firstName;
+
 @property (nonatomic, retain) NSString * lastName;
+@property (nonatomic, retain) NSString * email;
+@property (nonatomic, retain) NSString * societe;
+@property (nonatomic, retain) NSString * titre;
 @property (nonatomic, retain) NSSet *events;
 @end
 

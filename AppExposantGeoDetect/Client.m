@@ -12,8 +12,11 @@
 
 @implementation Client
 
-@dynamic firstName;
+
 @dynamic lastName;
+@dynamic email;
+@dynamic titre;
+@dynamic societe;
 @dynamic events;
 
 @end

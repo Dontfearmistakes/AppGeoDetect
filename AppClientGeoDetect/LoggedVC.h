@@ -10,7 +10,7 @@
 
 @interface LoggedVC : UIViewController
 
-@property (weak, nonatomic) IBOutlet UILabel *firstNameLastNameLabel;
+
 @property (weak, nonatomic) IBOutlet UILabel *enterRegionLabel;
 @property (weak, nonatomic) IBOutlet UILabel *determineRegionStateLabel;
 @property (weak, nonatomic) IBOutlet UILabel *fromNearToFarUILabel;

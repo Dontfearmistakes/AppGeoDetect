@@ -59,21 +59,13 @@
 // Choix d'afficher le lggedVC ou le loginVC ??
 // Le Keychain est il rempli ou vide ??
 -(void)viewWillAppear:(BOOL)animated
-{
-    // Is there a firstname/lastname in the keychain ?
-    //NSString *firstnameInKC = [NSString stringWithFormat:@"%@",[[GSKeychain systemKeychain] secretForKey:@"firstName"] ];
-    
+{    
     // If not loginVC
-    if (![[GSKeychain systemKeychain] secretForKey:@"firstName"])
+    if (![[GSKeychain systemKeychain] secretForKey:@"lastName"])
     {
         [self performSegueWithIdentifier:@"showLogin" sender:self];
     }
-    // Si oui loggedVC
-    else
-    {
-        self.firstNameLastNameLabel.text = [NSString stringWithFormat:@"%@ %@", [[GSKeychain systemKeychain] secretForKey:@"firstName"],
-                                                                                [[GSKeychain systemKeychain] secretForKey:@"lastName"]];
-    }
+
 
 }
 
